@@ -1,0 +1,201 @@
+id,raw_text,status,source,date
+1,"The app crashes when I click submit button",raw,slack,2024-01-15
+2,"It would be nice to have dark mode",raw,email,2024-01-15
+3,"I can't find the search bar anywhere",raw,intercom,2024-01-15
+4,"Great job on the new update!",raw,slack,2024-01-15
+5,"The submit button doesn't work properly",raw,email,2024-01-15
+6,"Can you add a way to export my data?",raw,intercom,2024-01-15
+7,"The search function is too slow",raw,slack,2024-01-15
+8,"I love the new interface design",raw,email,2024-01-15
+9,"The app is unusable, I'm switching tools",raw,intercom,2024-01-15
+10,"Could you add keyboard shortcuts?",raw,slack,2024-01-15
+11,"Notifications are not working on mobile",raw,email,2024-01-16
+12,"I keep getting logged out unexpectedly",raw,intercom,2024-01-16
+13,"The onboarding process is confusing",raw,slack,2024-01-16
+14,"Can you integrate with Google Drive?",raw,email,2024-01-16
+15,"The dashboard takes too long to load",raw,intercom,2024-01-16
+16,"I wish there was a calendar view",raw,slack,2024-01-16
+17,"The font size is too small on my laptop",raw,email,2024-01-16
+18,"Export to PDF would be super helpful",raw,intercom,2024-01-16
+19,"I can't reset my password",raw,slack,2024-01-16
+20,"The app doesn't remember my preferences",raw,email,2024-01-16
+21,"Love the new analytics feature!",raw,intercom,2024-01-16
+22,"The UI feels cluttered on small screens",raw,slack,2024-01-16
+23,"I get too many email notifications",raw,email,2024-01-16
+24,"The search results are not relevant",raw,intercom,2024-01-16
+25,"Can you add SSO support?",raw,slack,2024-01-16
+26,"The app is very slow during peak hours",raw,email,2024-01-16
+27,"I can't upload large files",raw,intercom,2024-01-16
+28,"The color scheme is hard to read",raw,slack,2024-01-16
+29,"I want to be able to duplicate projects",raw,email,2024-01-16
+30,"The mobile app crashes on launch",raw,intercom,2024-01-16
+31,"The pricing page is unclear",raw,slack,2024-01-16
+32,"I need more integrations (Zapier, etc.)",raw,email,2024-01-16
+33,"The app logs me out after 5 minutes",raw,intercom,2024-01-16
+34,"I can't invite team members",raw,slack,2024-01-16
+35,"The help docs are outdated",raw,email,2024-01-16
+36,"I want to customize my dashboard",raw,intercom,2024-01-16
+37,"The app doesn't support 2FA",raw,slack,2024-01-16
+38,"I can't change my email address",raw,email,2024-01-16
+39,"The sidebar is too wide",raw,intercom,2024-01-16
+40,"I love the new dark mode!",raw,slack,2024-01-16
+41,"The app is not accessible for screen readers",raw,email,2024-01-16
+42,"I want to filter notifications",raw,intercom,2024-01-16
+43,"The export feature is buggy",raw,slack,2024-01-16
+44,"I can't find the billing section",raw,email,2024-01-16
+45,"The app doesn't work on Safari",raw,intercom,2024-01-16
+46,"I want to set custom roles for users",raw,slack,2024-01-16
+47,"The app is too expensive",raw,email,2024-01-16
+48,"I can't delete my account",raw,intercom,2024-01-16
+49,"The UI is very intuitive, great job!",raw,slack,2024-01-16
+50,"I want to schedule reports",raw,email,2024-01-16
+51,"The app doesn't support my language",raw,intercom,2024-01-16
+52,"I want to see change logs in the app",raw,slack,2024-01-16
+53,"The app freezes when uploading images",raw,email,2024-01-16
+54,"I can't tag users in comments",raw,intercom,2024-01-16
+55,"The search bar is hidden on mobile",raw,slack,2024-01-16
+56,"I want to export data to Excel",raw,email,2024-01-16
+57,"The app doesn't save my filters",raw,intercom,2024-01-16
+58,"I want to set reminders for tasks",raw,slack,2024-01-16
+59,"The app is not GDPR compliant",raw,email,2024-01-16
+60,"I can't reorder items in the list",raw,intercom,2024-01-16
+61,"The app is very reliable, thanks!",raw,slack,2024-01-16
+62,"I want to see usage statistics",raw,email,2024-01-16
+63,"The app doesn't support offline mode",raw,intercom,2024-01-16
+64,"I want to customize notifications",raw,slack,2024-01-16
+65,"The app is too slow on my phone",raw,email,2024-01-16
+66,"I can't find the logout button",raw,intercom,2024-01-16
+67,"The UI is too bright at night",raw,slack,2024-01-16
+68,"I want to import data from CSV",raw,email,2024-01-16
+69,"The app doesn't support multi-factor auth",raw,intercom,2024-01-16
+70,"I want to see a roadmap of upcoming features",raw,slack,2024-01-16
+71,"The app doesn't support custom domains",raw,email,2024-01-16
+72,"I want to set up webhooks",raw,intercom,2024-01-16
+73,"The app is not mobile responsive",raw,slack,2024-01-16
+74,"I want to see who viewed my documents",raw,email,2024-01-16
+75,"The app doesn't support API access",raw,intercom,2024-01-16
+76,"I want to set up recurring tasks",raw,slack,2024-01-16
+77,"The app is not secure enough",raw,email,2024-01-16
+78,"I want to see a changelog for each update",raw,intercom,2024-01-16
+79,"The app doesn't support custom branding",raw,slack,2024-01-16
+80,"I want to set up SAML SSO",raw,email,2024-01-16
+81,"The app is not stable after the last update",raw,intercom,2024-01-16
+82,"I want to see a list of all integrations",raw,slack,2024-01-16
+83,"The app doesn't support my timezone",raw,email,2024-01-16
+84,"I want to set up custom fields",raw,intercom,2024-01-16
+85,"The app is not compatible with my browser",raw,slack,2024-01-16
+86,"I want to see a summary of my activity",raw,email,2024-01-16
+87,"The app doesn't support bulk actions",raw,intercom,2024-01-16
+88,"I want to set up approval workflows",raw,slack,2024-01-16
+89,"The app is not reliable for large teams",raw,email,2024-01-16
+90,"I want to see a list of all users",raw,intercom,2024-01-16
+91,"The app doesn't support file previews",raw,slack,2024-01-16
+92,"I want to set up custom permissions",raw,email,2024-01-16
+93,"The app is not easy to use for new users",raw,intercom,2024-01-16
+94,"I want to see a list of all projects",raw,slack,2024-01-16
+95,"The app doesn't support recurring payments",raw,email,2024-01-16
+96,"I want to set up custom notifications",raw,intercom,2024-01-16
+97,"The app is not fast enough for my workflow",raw,slack,2024-01-16
+98,"I want to see a list of all tasks",raw,email,2024-01-16
+99,"The app doesn't support custom reports",raw,intercom,2024-01-16
+100,"I want to set up custom dashboards",raw,slack,2024-01-16
+101,"I tried to invite a colleague but the invitation email never arrived. I checked the spam folder and tried multiple times. Can you help?",raw,email,2024-01-17
+102,"After the last update, the app feels much faster. Thanks for the performance improvements!",raw,slack,2024-01-17
+103,"I would like to be able to assign multiple owners to a single project. Right now, only one person can be the owner, which is limiting for our workflow.",raw,intercom,2024-01-17
+104,"The mobile app is missing several features that are available on the web version, such as advanced search and export options.",raw,email,2024-01-17
+105,"Sometimes when I try to upload a file larger than 10MB, the upload fails without any error message. Please add better error handling.",raw,slack,2024-01-17
+106,"I love the new Kanban board view! It's made managing our tasks so much easier.",raw,intercom,2024-01-17
+107,"The password reset email took over 30 minutes to arrive. This is too long, especially in urgent situations.",raw,email,2024-01-17
+108,"It would be great if the app could remember my last used filters between sessions.",raw,slack,2024-01-17
+109,"I keep getting a 'network error' when trying to save changes to my profile. This happens both on WiFi and 4G.",raw,intercom,2024-01-17
+110,"The onboarding tutorial is helpful, but it would be even better with short videos or GIFs.",raw,email,2024-01-17
+111,"I wish there was a way to export all my data at once, not just one project at a time.",raw,slack,2024-01-17
+112,"The app doesn't support right-to-left languages like Arabic or Hebrew, which is a blocker for our international team.",raw,intercom,2024-01-17
+113,"I appreciate the quick responses from your support team!",raw,email,2024-01-17
+114,"The app sometimes logs me out after a few minutes of inactivity, which is annoying when multitasking.",raw,slack,2024-01-17
+115,"I would like to see a timeline view for project milestones.",raw,intercom,2024-01-17
+116,"The search function doesn't find archived projects.",raw,email,2024-01-17
+117,"I love the new color palette, it's much easier on the eyes.",raw,slack,2024-01-17
+118,"The app doesn't support exporting reports as Excel files.",raw,intercom,2024-01-17
+119,"I would like to be able to set recurring reminders for tasks.",raw,email,2024-01-17
+120,"The app is great for small teams, but we need more features for larger organizations.",raw,slack,2024-01-17
+121,"When I try to delete a project, I get an error saying 'permission denied' even though I'm the owner.",raw,intercom,2024-01-17
+122,"The app is very intuitive, even for non-technical users. Well done!",raw,email,2024-01-17
+123,"I would like to see a changelog for each new release, ideally inside the app.",raw,slack,2024-01-17
+124,"The app doesn't support two-step verification, which is a security concern for us.",raw,intercom,2024-01-17
+125,"I love the new project templates! They save us a lot of time when starting new work.",raw,email,2024-01-17
+126,"The app sometimes freezes when switching between tabs quickly.",raw,slack,2024-01-17
+127,"I would like to be able to tag tasks with custom labels.",raw,intercom,2024-01-17
+128,"The export to PDF feature is missing some fields, like comments and attachments.",raw,email,2024-01-17
+129,"I appreciate the regular updates and new features.",raw,slack,2024-01-17
+130,"The app doesn't support importing data from Trello.",raw,intercom,2024-01-17
+131,"I would like to see a summary of all overdue tasks on the dashboard.",raw,email,2024-01-17
+132,"The app is not compatible with Internet Explorer 11.",raw,slack,2024-01-17
+133,"I love the new notification center, it's much easier to keep track of updates.",raw,intercom,2024-01-17
+134,"The app sometimes fails to load images in comments.",raw,email,2024-01-17
+135,"I would like to be able to customize the sidebar.",raw,slack,2024-01-17
+136,"The app doesn't support exporting user activity logs.",raw,intercom,2024-01-17
+137,"I appreciate the new keyboard shortcuts!",raw,email,2024-01-17
+138,"The app is not reliable for time tracking.",raw,slack,2024-01-17
+139,"I would like to see a list of all integrations available.",raw,intercom,2024-01-17
+140,"The app doesn't support custom branding for workspaces.",raw,email,2024-01-17
+141,"I love the new dark mode, but some text is hard to read.",raw,slack,2024-01-17
+142,"The app sometimes loses my changes if I switch tabs before saving.",raw,intercom,2024-01-17
+143,"I would like to be able to export all comments on a project.",raw,email,2024-01-17
+144,"The app is great for managing tasks, but we need better reporting features.",raw,slack,2024-01-17
+145,"I would like to see a list of all users in my organization.",raw,intercom,2024-01-17
+146,"The app doesn't support exporting data as CSV.",raw,email,2024-01-17
+147,"I love the new project overview page!",raw,slack,2024-01-17
+148,"The app sometimes fails to send notifications.",raw,intercom,2024-01-17
+149,"I would like to be able to set custom permissions for each user.",raw,email,2024-01-17
+150,"The app is not reliable for large file uploads.",raw,slack,2024-01-17
+151,"I would like to see a list of all completed tasks.",raw,intercom,2024-01-17
+152,"The app doesn't support exporting data to Google Sheets.",raw,email,2024-01-17
+153,"I love the new task dependencies feature!",raw,slack,2024-01-17
+154,"The app sometimes fails to update task status.",raw,intercom,2024-01-17
+155,"I would like to be able to set custom notifications for each project.",raw,email,2024-01-17
+156,"The app is not reliable for recurring tasks.",raw,slack,2024-01-17
+157,"I would like to see a list of all archived projects.",raw,intercom,2024-01-17
+158,"The app doesn't support exporting data to JSON.",raw,email,2024-01-17
+159,"I love the new project timeline view!",raw,slack,2024-01-17
+160,"The app sometimes fails to load the dashboard.",raw,intercom,2024-01-17
+161,"I would like to be able to set custom fields for tasks.",raw,email,2024-01-17
+162,"The app is not reliable for notifications.",raw,slack,2024-01-17
+163,"I would like to see a list of all active users.",raw,intercom,2024-01-17
+164,"The app doesn't support exporting data to XML.",raw,email,2024-01-17
+165,"I love the new project calendar view!",raw,slack,2024-01-17
+166,"The app sometimes fails to save changes.",raw,intercom,2024-01-17
+167,"I would like to be able to set custom reminders for tasks.",raw,email,2024-01-17
+168,"The app is not reliable for large teams.",raw,slack,2024-01-17
+169,"I would like to see a list of all pending tasks.",raw,intercom,2024-01-17
+170,"The app doesn't support exporting data to PDF.",raw,email,2024-01-17
+171,"I love the new project templates!",raw,slack,2024-01-17
+172,"The app sometimes fails to load notifications.",raw,intercom,2024-01-17
+173,"I would like to be able to set custom roles for each user.",raw,email,2024-01-17
+174,"The app is not reliable for exporting data.",raw,slack,2024-01-17
+175,"I would like to see a list of all overdue tasks.",raw,intercom,2024-01-17
+176,"The app doesn't support exporting data to Excel.",raw,email,2024-01-17
+177,"I love the new project overview page!",raw,slack,2024-01-17
+178,"The app sometimes fails to send email notifications.",raw,intercom,2024-01-17
+179,"I would like to be able to set custom permissions for each project.",raw,email,2024-01-17
+180,"The app is not reliable for large projects.",raw,slack,2024-01-17
+181,"I would like to see a list of all completed projects.",raw,intercom,2024-01-17
+182,"The app doesn't support exporting data to CSV.",raw,email,2024-01-17
+183,"I love the new project timeline view!",raw,slack,2024-01-17
+184,"The app sometimes fails to update project status.",raw,intercom,2024-01-17
+185,"I would like to be able to set custom notifications for each user.",raw,email,2024-01-17
+186,"The app is not reliable for recurring projects.",raw,slack,2024-01-17
+187,"I would like to see a list of all archived tasks.",raw,intercom,2024-01-17
+188,"The app doesn't support exporting data to JSON.",raw,email,2024-01-17
+189,"I love the new project calendar view!",raw,slack,2024-01-17
+190,"The app sometimes fails to save project changes.",raw,intercom,2024-01-17
+191,"I would like to be able to set custom reminders for projects.",raw,email,2024-01-17
+192,"The app is not reliable for notifications.",raw,slack,2024-01-17
+193,"I would like to see a list of all active projects.",raw,intercom,2024-01-17
+194,"The app doesn't support exporting project data to XML.",raw,email,2024-01-17
+195,"I love the new project templates!",raw,slack,2024-01-17
+196,"The app sometimes fails to load project notifications.",raw,intercom,2024-01-17
+197,"I would like to be able to set custom roles for each project.",raw,email,2024-01-17
+198,"The app is not reliable for exporting project data.",raw,slack,2024-01-17
+199,"I would like to see a list of all overdue projects.",raw,intercom,2024-01-17
+200,"The app doesn't support exporting project data to PDF.",raw,email,2024-01-17 
