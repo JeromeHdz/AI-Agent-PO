@@ -1,6 +1,14 @@
 const { runPhase3Pipeline } = require("../../../../src/agents/phase3/pipeline");
-const fs = require("fs");
 const path = require("path");
+
+// Mock fs with promises.writeFile
+jest.mock("fs", () => ({
+  existsSync: jest.fn(),
+  mkdirSync: jest.fn(),
+  promises: {
+    writeFile: jest.fn().mockResolvedValue(),
+  },
+}));
 
 // Mock the utilities
 jest.mock("../../../../src/utils/csvReader", () => ({
@@ -9,10 +17,6 @@ jest.mock("../../../../src/utils/csvReader", () => ({
 
 jest.mock("../../../../src/utils/csvWriter", () => ({
   writeCSV: jest.fn(),
-}));
-
-jest.mock("../../../../src/utils/markdownWriter", () => ({
-  writeMarkdown: jest.fn(),
 }));
 
 // Mock the user story generator
@@ -92,10 +96,6 @@ describe("Phase 3 Pipeline", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-
-    // Mock fs.existsSync and fs.mkdirSync
-    jest.spyOn(fs, "existsSync").mockReturnValue(false);
-    jest.spyOn(fs, "mkdirSync").mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -105,7 +105,6 @@ describe("Phase 3 Pipeline", () => {
   it("should run the complete Phase 3 pipeline successfully", async () => {
     const { readCSV } = require("../../../../src/utils/csvReader");
     const { writeCSV } = require("../../../../src/utils/csvWriter");
-    const { writeMarkdown } = require("../../../../src/utils/markdownWriter");
     const {
       generateUserStories,
     } = require("../../../../src/agents/phase3/userStoryGenerator");
@@ -114,7 +113,6 @@ describe("Phase 3 Pipeline", () => {
     readCSV.mockResolvedValue(mockFeatures);
     generateUserStories.mockResolvedValue(mockUserStories);
     writeCSV.mockResolvedValue();
-    writeMarkdown.mockResolvedValue();
 
     // Mock console.log to capture output
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
@@ -125,7 +123,10 @@ describe("Phase 3 Pipeline", () => {
     expect(readCSV).toHaveBeenCalledWith("test-input.csv");
     expect(generateUserStories).toHaveBeenCalledWith(mockFeatures);
     expect(writeCSV).toHaveBeenCalled();
-    expect(writeMarkdown).toHaveBeenCalled();
+
+    // Verify fs.promises.writeFile was called for markdown
+    const fs = require("fs");
+    expect(fs.promises.writeFile).toHaveBeenCalled();
 
     // Verify result structure
     expect(result).toHaveProperty("userStories");
@@ -136,7 +137,10 @@ describe("Phase 3 Pipeline", () => {
 
     // Verify output data structure
     const writeCSVCall = writeCSV.mock.calls[0];
-    const outputData = writeCSVCall[1]; // Second argument is the data
+    const outputData = writeCSVCall[0]; // First argument is the data
+    const outputPath = writeCSVCall[1]; // Second argument is the path
+    const headers = writeCSVCall[2]; // Third argument is the headers
+
     expect(outputData).toHaveLength(2);
     expect(outputData[0]).toHaveProperty("title", "Dark Mode");
     expect(outputData[0]).toHaveProperty("userStory");
@@ -176,15 +180,14 @@ describe("Phase 3 Pipeline", () => {
       generateUserStories,
     } = require("../../../../src/agents/phase3/userStoryGenerator");
     const { writeCSV } = require("../../../../src/utils/csvWriter");
-    const { writeMarkdown } = require("../../../../src/utils/markdownWriter");
 
     readCSV.mockResolvedValue(mockFeatures);
     generateUserStories.mockResolvedValue(mockUserStories);
     writeCSV.mockResolvedValue();
-    writeMarkdown.mockResolvedValue();
 
     await runPhase3Pipeline("test-input.csv", "new-output-dir");
 
+    const fs = require("fs");
     expect(fs.existsSync).toHaveBeenCalledWith("new-output-dir");
     expect(fs.mkdirSync).toHaveBeenCalledWith("new-output-dir", {
       recursive: true,
@@ -197,12 +200,10 @@ describe("Phase 3 Pipeline", () => {
       generateUserStories,
     } = require("../../../../src/agents/phase3/userStoryGenerator");
     const { writeCSV } = require("../../../../src/utils/csvWriter");
-    const { writeMarkdown } = require("../../../../src/utils/markdownWriter");
 
     readCSV.mockResolvedValue(mockFeatures);
     generateUserStories.mockResolvedValue(mockUserStories);
     writeCSV.mockResolvedValue();
-    writeMarkdown.mockResolvedValue();
 
     const result = await runPhase3Pipeline("test-input.csv", "test-output");
 
@@ -218,17 +219,15 @@ describe("Phase 3 Pipeline", () => {
       generateUserStories,
     } = require("../../../../src/agents/phase3/userStoryGenerator");
     const { writeCSV } = require("../../../../src/utils/csvWriter");
-    const { writeMarkdown } = require("../../../../src/utils/markdownWriter");
 
     readCSV.mockResolvedValue(mockFeatures);
     generateUserStories.mockResolvedValue(mockUserStories);
     writeCSV.mockResolvedValue();
-    writeMarkdown.mockResolvedValue();
 
     await runPhase3Pipeline("test-input.csv", "test-output");
 
     const writeCSVCall = writeCSV.mock.calls[0];
-    const outputData = writeCSVCall[1];
+    const outputData = writeCSVCall[0]; // First argument is the data
 
     expect(outputData[0]).toHaveProperty("title");
     expect(outputData[0]).toHaveProperty("userStory");
@@ -255,12 +254,10 @@ describe("Phase 3 Pipeline", () => {
       generateUserStories,
     } = require("../../../../src/agents/phase3/userStoryGenerator");
     const { writeCSV } = require("../../../../src/utils/csvWriter");
-    const { writeMarkdown } = require("../../../../src/utils/markdownWriter");
 
     readCSV.mockResolvedValue(mockFeatures);
     generateUserStories.mockResolvedValue(mockUserStories);
     writeCSV.mockResolvedValue();
-    writeMarkdown.mockResolvedValue();
 
     const consoleSpy = jest.spyOn(console, "log").mockImplementation(() => {});
 

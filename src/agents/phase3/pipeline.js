@@ -10,7 +10,7 @@ const path = require("path");
  */
 async function runPhase3Pipeline(inputFile, outputDir = "outputs") {
   console.log("🚀 Starting Phase 3: Feature to User Story Transformation");
-  console.log("=" * 60);
+  console.log("=".repeat(60));
 
   try {
     // Step 1: Load features from Phase 2
@@ -72,7 +72,29 @@ async function runPhase3Pipeline(inputFile, outputDir = "outputs") {
 
     // Export as CSV
     const csvOutputPath = path.join(outputDir, "user_stories.csv");
-    await writeCSV(csvOutputPath, outputData);
+
+    // Define headers for user stories CSV
+    const headers = [
+      { id: "title", title: "Title" },
+      { id: "userStory", title: "User Story" },
+      { id: "storyPoints", title: "Story Points" },
+      { id: "description", title: "Description" },
+      { id: "acceptanceCriteria", title: "Acceptance Criteria" },
+      { id: "bddTests", title: "BDD Tests" },
+      { id: "dependencies", title: "Dependencies" },
+      { id: "value", title: "Value" },
+      { id: "priority", title: "Priority" },
+      { id: "epic", title: "Epic" },
+      { id: "originalDescription", title: "Original Description" },
+      { id: "impact", title: "Impact" },
+      { id: "moscow", title: "MoSCoW" },
+      { id: "riceScore", title: "RICE Score" },
+      { id: "riceEffort", title: "RICE Effort" },
+      { id: "kanoType", title: "Kano Type" },
+      { id: "kanoScore", title: "Kano Score" },
+    ];
+
+    await writeCSV(outputData, csvOutputPath, headers);
     console.log(`✅ User stories exported to: ${csvOutputPath}`);
 
     // Export as Markdown
@@ -153,7 +175,9 @@ async function writeUserStoriesMarkdown(outputPath, userStories) {
     markdown += "---\n\n";
   });
 
-  await writeMarkdown(outputPath, markdown);
+  // Write directly to file instead of using writeMarkdown
+  const fs = require("fs").promises;
+  await fs.writeFile(outputPath, markdown, "utf8");
 }
 
 /**
@@ -180,7 +204,7 @@ function generateSummary(userStories) {
   }, {});
 
   let summary = "\n📊 PHASE 3 SUMMARY\n";
-  summary += "=" * 40 + "\n";
+  summary += "=".repeat(40) + "\n";
   summary += `Total User Stories: ${totalStories}\n`;
   summary += `Total Story Points: ${totalStoryPoints}\n`;
   summary += `Average Story Points: ${avgStoryPoints.toFixed(1)}\n\n`;
@@ -195,7 +219,7 @@ function generateSummary(userStories) {
     summary += `  ${epic}: ${count} stories\n`;
   });
 
-  summary += "\n" + "=" * 40 + "\n";
+  summary += "\n" + "=".repeat(40) + "\n";
 
   return summary;
 }

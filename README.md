@@ -349,22 +349,246 @@ Given I am on the settings page, And dark mode is available, When I click the th
 - **[Quick Start Phase 2](README_PHASE_2.md)** : Démarrage rapide
 - **[Quick Start Phase 3](README_PHASE_3.md)** : Démarrage rapide
 
-## 🚦 Prochaines étapes
+## 🚀 Next Steps - Intégration avec les outils de Product Management
 
-### Améliorations possibles
+### 🎯 Objectif : Connecter nos agents IA aux outils de PO/PM
 
-1. **Intégration directe** : Export vers Jira, Notion, Linear
-2. **Templates personnalisés** : Adaptation selon l'équipe
-3. **Validation avancée** : Vérification qualité des user stories
-4. **Historique** : Tracking des versions et modifications
-5. **Interface web** : Dashboard pour visualisation et gestion
+Notre pipeline IA génère actuellement des user stories de haute qualité. La prochaine étape est de les intégrer directement dans les outils de Product Management utilisés par les équipes.
 
-### Pipeline complet automatisé
+### 📋 Intégrations prioritaires
+
+#### 1. **Jira Integration** 🔗
 
 ```bash
-# Pipeline complet en une commande
-npm run pipeline -- --input data/feedback.csv
+# Configuration Jira
+JIRA_URL=https://your-company.atlassian.net
+JIRA_USERNAME=your-email@company.com
+JIRA_API_TOKEN=your-api-token
+JIRA_PROJECT_KEY=PROJ
 ```
+
+**Fonctionnalités à implémenter :**
+
+- ✅ Création automatique d'issues depuis les user stories
+- ✅ Mapping des priorités (MoSCoW → Jira Priority)
+- ✅ Attribution des story points
+- ✅ Création d'épics et de sprints
+- ✅ Mise à jour des champs personnalisés (RICE, Kano)
+
+**Structure proposée :**
+
+```
+src/integrations/jira/
+├── jiraClient.js          # Client API Jira
+├── issueMapper.js         # Mapping user stories → Jira issues
+├── epicManager.js         # Gestion des épics
+└── sprintPlanner.js       # Planification automatique
+```
+
+#### 2. **Notion Integration** 📝
+
+```bash
+# Configuration Notion
+NOTION_API_KEY=your-notion-api-key
+NOTION_DATABASE_ID=your-database-id
+NOTION_PAGE_ID=your-parent-page-id
+```
+
+**Fonctionnalités à implémenter :**
+
+- ✅ Création de pages dans la base de données Notion
+- ✅ Templates personnalisés pour les user stories
+- ✅ Propriétés structurées (Priority, Story Points, Epic)
+- ✅ Relations entre stories et épics
+- ✅ Tags et catégorisation automatique
+
+**Structure proposée :**
+
+```
+src/integrations/notion/
+├── notionClient.js        # Client API Notion
+├── pageCreator.js         # Création de pages
+├── templateManager.js     # Gestion des templates
+└── propertyMapper.js      # Mapping des propriétés
+```
+
+#### 3. **Linear Integration** ⚡
+
+```bash
+# Configuration Linear
+LINEAR_API_KEY=your-linear-api-key
+LINEAR_TEAM_ID=your-team-id
+LINEAR_PROJECT_ID=your-project-id
+```
+
+**Fonctionnalités à implémenter :**
+
+- ✅ Création d'issues dans Linear
+- ✅ Attribution automatique aux équipes
+- ✅ Gestion des cycles et labels
+- ✅ Estimation automatique (story points)
+- ✅ Relations parent-enfant (épics)
+
+#### 4. **Azure DevOps Integration** 🔄
+
+```bash
+# Configuration Azure DevOps
+AZURE_DEVOPS_ORG=your-organization
+AZURE_DEVOPS_PROJECT=your-project
+AZURE_DEVOPS_PAT=your-personal-access-token
+```
+
+**Fonctionnalités à implémenter :**
+
+- ✅ Création de work items
+- ✅ Gestion des backlogs et sprints
+- ✅ Mapping des priorités et efforts
+- ✅ Intégration avec les boards Kanban
+
+### 🔧 Architecture d'intégration proposée
+
+```
+src/integrations/
+├── base/
+│   ├── integrationClient.js    # Interface commune
+│   ├── issueMapper.js          # Mapping générique
+│   └── templateEngine.js       # Moteur de templates
+├── jira/
+│   ├── jiraClient.js
+│   ├── jiraMapper.js
+│   └── jiraTemplates.js
+├── notion/
+│   ├── notionClient.js
+│   ├── notionMapper.js
+│   └── notionTemplates.js
+├── linear/
+│   ├── linearClient.js
+│   ├── linearMapper.js
+│   └── linearTemplates.js
+└── azure/
+    ├── azureClient.js
+    ├── azureMapper.js
+    └── azureTemplates.js
+```
+
+### 🎨 Templates personnalisables
+
+#### Template Jira
+
+```javascript
+const jiraTemplate = {
+  summary: "{{userStory.title}}",
+  description: `
+    {{userStory.description}}
+    
+    **Acceptance Criteria:**
+    {{userStory.acceptanceCriteria}}
+    
+    **BDD Tests:**
+    {{userStory.bddTests}}
+  `,
+  customfield_10001: "{{userStory.storyPoints}}", // Story Points
+  customfield_10002: "{{userStory.epic}}", // Epic Link
+  priority: "{{userStory.priority}}",
+};
+```
+
+#### Template Notion
+
+```javascript
+const notionTemplate = {
+  properties: {
+    Title: { title: [{ text: { content: "{{userStory.title}}" } }] },
+    Priority: { select: { name: "{{userStory.priority}}" } },
+    "Story Points": { number: "{{userStory.storyPoints}}" },
+    Epic: { relation: [{ id: "{{userStory.epicId}}" }] },
+    Status: { select: { name: "Backlog" } },
+  },
+  children: [
+    {
+      object: "block",
+      type: "paragraph",
+      paragraph: {
+        rich_text: [{ text: { content: "{{userStory.description}}" } }],
+      },
+    },
+  ],
+};
+```
+
+### 🚀 CLI étendu
+
+```bash
+# Export vers Jira
+npm run export -- --target jira --project PROJ
+
+# Export vers Notion
+npm run export -- --target notion --database abc123
+
+# Export vers Linear
+npm run export -- --target linear --team eng
+
+# Export vers Azure DevOps
+npm run export -- --target azure --project myproject
+```
+
+### 🔄 Workflow automatisé
+
+```bash
+# Pipeline complet avec export automatique
+npm run pipeline -- --input feedback.csv --export jira --project PROJ
+```
+
+### 🎯 Adaptation aux environnements
+
+#### Configuration par environnement
+
+```javascript
+// config/environments.js
+module.exports = {
+  development: {
+    jira: { project: "DEV" },
+    notion: { database: "dev-stories" },
+    linear: { team: "dev-team" },
+  },
+  staging: {
+    jira: { project: "STG" },
+    notion: { database: "staging-stories" },
+    linear: { team: "staging-team" },
+  },
+  production: {
+    jira: { project: "PROD" },
+    notion: { database: "prod-stories" },
+    linear: { team: "prod-team" },
+  },
+};
+```
+
+### 📊 Monitoring et analytics
+
+- **Suivi des exports** : Logs des intégrations réussies/échouées
+- **Métriques de qualité** : Validation automatique des user stories
+- **Feedback loop** : Amélioration continue basée sur l'usage
+- **Dashboard** : Visualisation des métriques d'intégration
+
+### 🔐 Sécurité et permissions
+
+- **API Keys** : Gestion sécurisée des tokens d'accès
+- **Permissions** : Vérification des droits d'écriture
+- **Audit trail** : Logs des modifications apportées
+- **Rollback** : Possibilité d'annuler les créations
+
+### 🎉 Impact attendu
+
+1. **Réduction du temps de saisie** : 80% de réduction du temps de création de tickets
+2. **Cohérence des données** : Standardisation des user stories
+3. **Qualité améliorée** : User stories plus complètes et structurées
+4. **Scalabilité** : Traitement de volumes importants de feedback
+5. **Adoption facilitée** : Intégration transparente dans les workflows existants
+
+---
+
+**🎯 Prochain sprint** : Implémentation de l'intégration Jira en priorité
 
 ## 📄 License
 
