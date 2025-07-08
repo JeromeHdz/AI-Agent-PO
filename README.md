@@ -149,23 +149,31 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 ## 🚀 Utilisation
 
-### Phase 1 (Feedback Ingestion)
+### Pipeline complet
 
 ```bash
+# Phase 1: Feedback → Thèmes
+npm run phase1
+
+# Phase 2: Thèmes → Features prioritaires
+npm run phase2
+
+# Phase 3: Features → User stories
+npm run phase3
+```
+
+### Utilisation individuelle
+
+```bash
+# Phase 1 (Feedback Ingestion)
 npm run phase1
 # Résultats dans outputs/themes.md et outputs/themes.csv
-```
 
-### Phase 2 (Feature Extraction)
-
-```bash
+# Phase 2 (Feature Extraction)
 npm run phase2
 # Résultats dans outputs/features.csv
-```
 
-### Phase 3 (User Story Generation)
-
-```bash
+# Phase 3 (User Story Generation)
 npm run phase3
 # Résultats dans outputs/user_stories.csv et outputs/user_stories.md
 ```
@@ -235,6 +243,9 @@ AI_PO_THIGA/
 │   ├── PHASE_1_FEEDBACK_INGESTION.md  # Documentation Phase 1
 │   ├── PHASE_2_FEATURE_EXTRACTION.md  # Documentation Phase 2
 │   └── PHASE_3_USER_STORY_GENERATION.md # Documentation Phase 3
+├── README_PHASE_1.md         # Quick start Phase 1
+├── README_PHASE_2.md         # Quick start Phase 2
+├── README_PHASE_3.md         # Quick start Phase 3
 └── README.md
 ```
 
@@ -247,6 +258,49 @@ AI_PO_THIGA/
 - **Phase 3** : 100% de couverture pour UserStoryGenerator
 - **Tests unitaires** : Tous les agents et utilitaires
 - **Tests d'intégration** : Pipeline complet pour chaque phase
+
+## 📊 Exemple de sortie
+
+### Phase 1: Thèmes générés
+
+```markdown
+# User Feedback Themes
+
+- Users want dark mode for better visual comfort
+- Mobile app performance needs improvement
+- Interface should be more intuitive
+```
+
+### Phase 2: Features prioritaires
+
+```csv
+ID,Feature Name,Description,MoSCoW,RICE Score,Kano Type
+1,Dark Mode,Users want dark theme for visual comfort,Must,192,must-have
+2,Mobile Performance,App is slow on mobile devices,Must,126,performance
+```
+
+### Phase 3: User Stories
+
+```markdown
+# User Story: Implement Dark Mode Toggle
+
+**EPIC**: User Experience Enhancement  
+**Summary**: Allow users to switch between light and dark themes  
+**Estimation**: 8 story points  
+**Priority**: Must
+
+## User Story
+
+As a user, I want to toggle between light and dark themes, So that I can reduce eye strain in low-light environments.
+
+## Acceptance Criteria
+
+The user can access settings and activate dark mode.
+
+## BDD Tests
+
+Given I am on the settings page, And dark mode is available, When I click the theme toggle button, Then the interface switches to dark mode, And all UI elements adapt to the dark theme.
+```
 
 ## 🤝 Contribution
 
@@ -286,6 +340,32 @@ AI_PO_THIGA/
 
 6. **Create Pull Request**
 
+## 📚 Documentation
+
+- **[Phase 1 - Feedback Ingestion](docs/PHASE_1_FEEDBACK_INGESTION.md)** : Documentation complète
+- **[Phase 2 - Feature Extraction](docs/PHASE_2_FEATURE_EXTRACTION.md)** : Documentation complète
+- **[Phase 3 - User Story Generation](docs/PHASE_3_USER_STORY_GENERATION.md)** : Documentation complète
+- **[Quick Start Phase 1](README_PHASE_1.md)** : Démarrage rapide
+- **[Quick Start Phase 2](README_PHASE_2.md)** : Démarrage rapide
+- **[Quick Start Phase 3](README_PHASE_3.md)** : Démarrage rapide
+
+## 🚦 Prochaines étapes
+
+### Améliorations possibles
+
+1. **Intégration directe** : Export vers Jira, Notion, Linear
+2. **Templates personnalisés** : Adaptation selon l'équipe
+3. **Validation avancée** : Vérification qualité des user stories
+4. **Historique** : Tracking des versions et modifications
+5. **Interface web** : Dashboard pour visualisation et gestion
+
+### Pipeline complet automatisé
+
+```bash
+# Pipeline complet en une commande
+npm run pipeline -- --input data/feedback.csv
+```
+
 ## 📄 License
 
 MIT License - see LICENSE file for details.
@@ -295,3 +375,7 @@ MIT License - see LICENSE file for details.
 - **Thiga** pour le test technique
 - **OpenAI** pour GPT-4o
 - **LangChain** pour le framework d'agents IA
+
+---
+
+**🎉 Projet complet** - Toutes les 3 phases sont terminées et fonctionnelles !
