@@ -1,0 +1,61 @@
+{
+  "name": "ai-po-thiga",
+  "version": "1.0.0",
+  "description": "Agent Builder AI - Système d'agents IA pour Product Owner - Test technique Thiga",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/",
+    "phase1": "node src/cli/phase1.js",
+    "phase2": "node src/cli/phase2.js",
+    "phase3": "node src/cli/phase3.js",
+    "pipeline": "node src/pipeline.js"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "product-owner",
+    "feedback-analysis",
+    "feature-extraction",
+    "user-stories",
+    "langchain",
+    "openai"
+  ],
+  "author": "Thiga Technical Test",
+  "license": "MIT",
+  "dependencies": {
+    "langchain": "^0.1.0",
+    "openai": "^4.20.0",
+    "dotenv": "^16.3.0",
+    "commander": "^11.0.0",
+    "chalk": "^4.1.2",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "fs-extra": "^11.1.0",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.0",
+    "eslint": "^8.50.0",
+    "prettier": "^3.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/your-username/ai-po-thiga.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/ai-po-thiga/issues"
+  },
+  "homepage": "https://github.com/your-username/ai-po-thiga#readme"
+}
