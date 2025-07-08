@@ -144,87 +144,192 @@ function parseUserStories(response, features) {
 
     console.log(`🔍 Processing section: ${section.substring(0, 100)}...`);
 
-    // Parse pipe-separated format: Feature | Story | Points | Description | Acceptance | BDD | Dependencies | Value | Priority | Epic
+    // Try to parse as pipe-separated format first
     const parts = section.split("|").map((part) => part.trim());
 
-    if (parts.length < 3) {
-      console.log(`❌ Invalid format in section, expected at least 3 parts`);
-      continue;
-    }
+    if (parts.length >= 3) {
+      // Parse pipe-separated format: Feature | Story | Points | Description | Acceptance | BDD | Dependencies | Value | Priority | Epic
+      const featureName = parts[0];
+      const userStory = parts[1] || "";
+      const storyPoints = parseInt(parts[2]) || 8;
+      const description = parts[3] || "";
+      const acceptanceCriteria = parts[4] || "";
+      const bddTests = parts[5] || "";
+      const dependencies = parts[6] || "";
+      const value = parseFloat(parts[7]) || 0;
+      const priority = parts[8] || "Should";
+      const epic = parts[9] || "General";
 
-    const featureName = parts[0];
-    const userStory = parts[1] || "";
-    const storyPoints = parseInt(parts[2]) || 8;
-    const description = parts[3] || "";
-    const acceptanceCriteria = parts[4] || "";
-    const bddTests = parts[5] || "";
-    const dependencies = parts[6] || "";
-    const value = parseFloat(parts[7]) || 0;
-    const priority = parts[8] || "Should";
-    const epic = parts[9] || "General";
+      console.log(`🔍 Processing feature: ${featureName}`);
+      console.log(
+        `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
+      );
 
-    console.log(`🔍 Processing feature: ${featureName}`);
-    console.log(
-      `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
-    );
+      // Find the original feature - handle both "Feature Name" and "name" properties
+      const originalFeature = features.find((f) => {
+        const featureNameFromData = f["Feature Name"] || f.name;
+        if (!featureNameFromData) return false;
 
-    // Find the original feature - handle both "Feature Name" and "name" properties
-    const originalFeature = features.find((f) => {
-      const featureNameFromData = f["Feature Name"] || f.name;
-      if (!featureNameFromData) return false;
+        const match =
+          featureNameFromData
+            .toLowerCase()
+            .includes(featureName.toLowerCase()) ||
+          featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
 
-      const match =
-        featureNameFromData.toLowerCase().includes(featureName.toLowerCase()) ||
-        featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
+        if (match) {
+          console.log(
+            `🔍 Matched "${featureName}" with "${featureNameFromData}"`
+          );
+        }
 
-      if (match) {
-        console.log(
-          `🔍 Matched "${featureName}" with "${featureNameFromData}"`
-        );
+        return match;
+      });
+
+      if (!originalFeature) {
+        console.log(`❌ Could not find original feature for: ${featureName}`);
+        continue;
       }
 
-      return match;
-    });
+      console.log(
+        `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
+      );
 
-    if (!originalFeature) {
-      console.log(`❌ Could not find original feature for: ${featureName}`);
-      continue;
+      // Debug: Log what we found
+      console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
+      console.log(`  📊 Story Points: ${storyPoints}`);
+      console.log(`  🎯 Priority: ${priority}`);
+      console.log(`  📄 Description: ${description.substring(0, 30)}...`);
+      console.log(
+        `  ✅ Acceptance Criteria: ${acceptanceCriteria.substring(0, 30)}...`
+      );
+
+      stories.push({
+        ...originalFeature,
+        userStory: {
+          title: featureName,
+          story: userStory,
+          storyPoints,
+          description,
+          acceptanceCriteria,
+          bddTests,
+          dependencies,
+          value,
+          priority,
+          epic,
+          // Additional template fields
+          mockups: "", // To be filled by design team
+          taggingPlan: "", // To be filled by dev team
+          performanceCriteria: "", // To be filled by tech team
+          uiuxCriteria: "", // To be filled by design team
+          dataCriteria: "", // To be filled by data team
+        },
+      });
+    } else {
+      // Try to parse as section format with **Feature Name:** etc.
+      const featureNameMatch = section.match(
+        /\*\*Feature Name:\*\*\s*(.+?)(?:\n|$)/
+      );
+      if (!featureNameMatch) {
+        console.log(`❌ No Feature Name found in section`);
+        continue;
+      }
+
+      const featureName = featureNameMatch[1].trim();
+      const userStoryMatch = section.match(
+        /\*\*User Story:\*\*\s*(.+?)(?:\n|$)/
+      );
+      const storyPointsMatch = section.match(/\*\*Story Points:\*\*\s*(\d+)/);
+      const descriptionMatch = section.match(
+        /\*\*Description:\*\*\s*(.+?)(?:\n|$)/
+      );
+      const acceptanceMatch = section.match(
+        /\*\*Acceptance Criteria:\*\*\s*(.+?)(?:\n|$)/
+      );
+      const bddMatch = section.match(/\*\*BDD Tests:\*\*\s*(.+?)(?:\n|$)/);
+      const dependenciesMatch = section.match(
+        /\*\*Dependencies:\*\*\s*(.+?)(?:\n|$)/
+      );
+      const valueMatch = section.match(/\*\*Value:\*\*\s*([\d.]+)/);
+      const priorityMatch = section.match(/\*\*Priority:\*\*\s*(.+?)(?:\n|$)/);
+      const epicMatch = section.match(/\*\*Epic:\*\*\s*(.+?)(?:\n|$)/);
+
+      const userStory = userStoryMatch ? userStoryMatch[1].trim() : "";
+      const storyPoints = storyPointsMatch ? parseInt(storyPointsMatch[1]) : 8;
+      const description = descriptionMatch ? descriptionMatch[1].trim() : "";
+      const acceptanceCriteria = acceptanceMatch
+        ? acceptanceMatch[1].trim()
+        : "";
+      const bddTests = bddMatch ? bddMatch[1].trim() : "";
+      const dependencies = dependenciesMatch ? dependenciesMatch[1].trim() : "";
+      const value = valueMatch ? parseFloat(valueMatch[1]) : 0;
+      const priority = priorityMatch ? priorityMatch[1].trim() : "Should";
+      const epic = epicMatch ? epicMatch[1].trim() : "General";
+
+      console.log(`🔍 Processing feature: ${featureName}`);
+      console.log(
+        `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
+      );
+
+      // Find the original feature - handle both "Feature Name" and "name" properties
+      const originalFeature = features.find((f) => {
+        const featureNameFromData = f["Feature Name"] || f.name;
+        if (!featureNameFromData) return false;
+
+        const match =
+          featureNameFromData
+            .toLowerCase()
+            .includes(featureName.toLowerCase()) ||
+          featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
+
+        if (match) {
+          console.log(
+            `🔍 Matched "${featureName}" with "${featureNameFromData}"`
+          );
+        }
+
+        return match;
+      });
+
+      if (!originalFeature) {
+        console.log(`❌ Could not find original feature for: ${featureName}`);
+        continue;
+      }
+
+      console.log(
+        `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
+      );
+
+      // Debug: Log what we found
+      console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
+      console.log(`  📊 Story Points: ${storyPoints}`);
+      console.log(`  🎯 Priority: ${priority}`);
+      console.log(`  📄 Description: ${description.substring(0, 30)}...`);
+      console.log(
+        `  ✅ Acceptance Criteria: ${acceptanceCriteria.substring(0, 30)}...`
+      );
+
+      stories.push({
+        ...originalFeature,
+        userStory: {
+          title: featureName,
+          story: userStory,
+          storyPoints,
+          description,
+          acceptanceCriteria,
+          bddTests,
+          dependencies,
+          value,
+          priority,
+          epic,
+          // Additional template fields
+          mockups: "", // To be filled by design team
+          taggingPlan: "", // To be filled by dev team
+          performanceCriteria: "", // To be filled by tech team
+          uiuxCriteria: "", // To be filled by design team
+          dataCriteria: "", // To be filled by data team
+        },
+      });
     }
-
-    console.log(
-      `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
-    );
-
-    // Debug: Log what we found
-    console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
-    console.log(`  📊 Story Points: ${storyPoints}`);
-    console.log(`  🎯 Priority: ${priority}`);
-    console.log(`  📄 Description: ${description.substring(0, 30)}...`);
-    console.log(
-      `  ✅ Acceptance Criteria: ${acceptanceCriteria.substring(0, 30)}...`
-    );
-
-    stories.push({
-      ...originalFeature,
-      userStory: {
-        title: featureName,
-        story: userStory,
-        storyPoints,
-        description,
-        acceptanceCriteria,
-        bddTests,
-        dependencies,
-        value,
-        priority,
-        epic,
-        // Additional template fields
-        mockups: "", // To be filled by design team
-        taggingPlan: "", // To be filled by dev team
-        performanceCriteria: "", // To be filled by tech team
-        uiuxCriteria: "", // To be filled by design team
-        dataCriteria: "", // To be filled by data team
-      },
-    });
   }
 
   return stories;

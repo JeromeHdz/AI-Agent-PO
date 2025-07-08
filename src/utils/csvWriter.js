@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 /**
@@ -99,22 +99,16 @@ async function writeFeaturesToCSV(results, filePath) {
 }
 
 /**
- * Generic CSV writer function.
- * @param {string} filePath - Path to the CSV file
+ * Generic CSV writer function for any data structure.
  * @param {Array} data - Array of objects to write
+ * @param {string} filePath - Path to the CSV file
+ * @param {Array} headers - Array of header objects with id and title
  * @returns {Promise<void>}
  */
-async function writeCSV(filePath, data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    throw new TypeError("Data must be a non-empty array");
+async function writeCSV(data, filePath, headers) {
+  if (!Array.isArray(data)) {
+    throw new TypeError("Data must be an array");
   }
-
-  // Extract headers from the first object
-  const headers = Object.keys(data[0]).map((key) => ({
-    id: key,
-    title:
-      key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
-  }));
 
   const csvWriter = createCsvWriter({
     path: filePath,
@@ -124,4 +118,8 @@ async function writeCSV(filePath, data) {
   await csvWriter.writeRecords(data);
 }
 
-module.exports = { writeThemesToCSV, writeFeaturesToCSV, writeCSV };
+module.exports = {
+  writeThemesToCSV,
+  writeFeaturesToCSV,
+  writeCSV,
+};
