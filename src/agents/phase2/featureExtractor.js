@@ -99,6 +99,46 @@ function parseFeaturesFromResponse(response) {
       continue;
     }
 
+    // Check for numbered feature name (e.g., "1. **Improve App Stability**")
+    const numberedFeatureMatch = trimmedLine.match(/^\d+\.\s*\*\*(.+?)\*\*$/);
+    if (numberedFeatureMatch) {
+      if (currentFeature) {
+        features.push(currentFeature);
+      }
+      currentFeature = {
+        name: numberedFeatureMatch[1].trim(),
+        description: "",
+        objective: "",
+        examples: "",
+        impact: "moderate",
+      };
+      continue;
+    }
+
+    // Check for feature name with dash prefix (e.g., "- **Feature name**: Dark Mode")
+    const featureNameWithDashMatch = trimmedLine.match(
+      /^-\s*\*\*(.+?)\*\*:\s*(.+)$/
+    );
+    if (featureNameWithDashMatch) {
+      const sectionName = featureNameWithDashMatch[1].trim();
+      const sectionValue = featureNameWithDashMatch[2].trim();
+
+      // Only process the "Feature name" section
+      if (sectionName.toLowerCase().includes("feature name")) {
+        if (currentFeature) {
+          features.push(currentFeature);
+        }
+        currentFeature = {
+          name: sectionValue,
+          description: "",
+          objective: "",
+          examples: "",
+          impact: "moderate",
+        };
+      }
+      continue;
+    }
+
     // Check for different sections
     if (trimmedLine.includes("Description:")) {
       const description = trimmedLine.replace(/^.*Description:\s*/, "").trim();
