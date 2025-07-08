@@ -1,5 +1,5 @@
-const { ChatOpenAI } = require("langchain/chat_models/openai");
-const { HumanMessage, SystemMessage } = require("langchain/schema");
+const { ChatOpenAI } = require("@langchain/openai");
+const { HumanMessage, SystemMessage } = require("@langchain/core/messages");
 require("dotenv").config();
 
 const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4o";
