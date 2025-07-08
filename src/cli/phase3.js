@@ -12,21 +12,23 @@ async function main() {
     // Parse command line arguments
     const args = process.argv.slice(2);
 
-    if (args.length === 0) {
+    // Check for help flag
+    if (args.includes("--help") || args.includes("-h")) {
       console.log("🚀 Phase 3: Feature to User Story Transformation");
       console.log("=" * 50);
       console.log("");
-      console.log("Usage: node src/cli/phase3.js <input-file> [output-dir]");
+      console.log("Usage: node src/cli/phase3.js [input-file] [output-dir]");
       console.log("");
       console.log("Arguments:");
-      console.log("  input-file    Path to Phase 2 features CSV file");
+      console.log(
+        "  input-file    Path to Phase 2 features CSV file (default: outputs/features.csv)"
+      );
       console.log("  output-dir    Output directory (default: outputs)");
       console.log("");
-      console.log("Example:");
-      console.log("  node src/cli/phase3.js outputs/features_prioritized.csv");
-      console.log(
-        "  node src/cli/phase3.js outputs/features_prioritized.csv my-output"
-      );
+      console.log("Examples:");
+      console.log("  node src/cli/phase3.js");
+      console.log("  node src/cli/phase3.js outputs/features.csv");
+      console.log("  node src/cli/phase3.js outputs/features.csv my-output");
       console.log("");
       console.log("This will:");
       console.log("  ✅ Load features from Phase 2");
@@ -37,7 +39,8 @@ async function main() {
       process.exit(0);
     }
 
-    const inputFile = args[0];
+    // Use default values if no arguments provided
+    const inputFile = args[0] || "outputs/features.csv";
     const outputDir = args[1] || "outputs";
 
     // Validate input file

@@ -128,4 +128,27 @@ ${moscow.wont?.map((feature) => `- ${feature}`).join("\n") || "- None"}
   });
 }
 
-module.exports = { writeThemesToMarkdown, writeFeaturesToMarkdown };
+/**
+ * Generic markdown writer function.
+ * @param {string} filePath - Path to the markdown file
+ * @param {string} content - Markdown content to write
+ * @returns {Promise<void>}
+ */
+async function writeMarkdown(filePath, content) {
+  if (typeof content !== "string") {
+    throw new TypeError("Content must be a string");
+  }
+
+  return new Promise((resolve, reject) => {
+    fs.writeFile(filePath, content, "utf8", (err) => {
+      if (err) reject(err);
+      else resolve();
+    });
+  });
+}
+
+module.exports = {
+  writeThemesToMarkdown,
+  writeFeaturesToMarkdown,
+  writeMarkdown,
+};

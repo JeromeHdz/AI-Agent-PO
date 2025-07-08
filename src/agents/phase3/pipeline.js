@@ -23,6 +23,11 @@ async function runPhase3Pipeline(inputFile, outputDir = "outputs") {
 
     console.log(`✅ Loaded ${features.length} features from Phase 2`);
 
+    // Debug: Log first feature structure
+    console.log("🔍 First feature structure:");
+    console.log(JSON.stringify(features[0], null, 2));
+    console.log("");
+
     // Step 2: Generate comprehensive user stories
     console.log("📝 Generating comprehensive user stories...");
     const userStories = await generateUserStories(features);

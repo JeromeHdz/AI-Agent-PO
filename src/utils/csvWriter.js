@@ -98,4 +98,30 @@ async function writeFeaturesToCSV(results, filePath) {
   await csvWriter.writeRecords(records);
 }
 
-module.exports = { writeThemesToCSV, writeFeaturesToCSV };
+/**
+ * Generic CSV writer function.
+ * @param {string} filePath - Path to the CSV file
+ * @param {Array} data - Array of objects to write
+ * @returns {Promise<void>}
+ */
+async function writeCSV(filePath, data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    throw new TypeError("Data must be a non-empty array");
+  }
+
+  // Extract headers from the first object
+  const headers = Object.keys(data[0]).map((key) => ({
+    id: key,
+    title:
+      key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
+  }));
+
+  const csvWriter = createCsvWriter({
+    path: filePath,
+    header: headers,
+  });
+
+  await csvWriter.writeRecords(data);
+}
+
+module.exports = { writeThemesToCSV, writeFeaturesToCSV, writeCSV };
