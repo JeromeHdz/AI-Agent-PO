@@ -57,8 +57,16 @@ Please extract clear, actionable features from each theme. Focus on what users a
   try {
     const response = await llm.call(messages);
 
+    // Debug: log the response
+    console.log(
+      "🔍 Feature Extractor AI response:",
+      response.content.substring(0, 500) + "..."
+    );
+
     // Parse the structured response into features
     const features = parseFeaturesFromResponse(response.content);
+
+    console.log("📋 Parsed features:", features.length);
 
     return features;
   } catch (error) {

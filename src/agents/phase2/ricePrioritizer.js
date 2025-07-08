@@ -21,12 +21,14 @@ For each feature, assign a score according to these criteria:
 
 Then calculate the RICE score = (Reach × Impact × Confidence) / Effort.
 
-Provide your response in this exact format:
+IMPORTANT: Respond EXACTLY in this format:
 Feature Name | Reach | Impact | Confidence | Effort | Score | Justification
 
-Sort features from highest to lowest RICE score.
-Add a brief written justification for each prioritization (1-2 sentences max).
+Example:
+Dark Mode | 8 | 7 | 9 | 4 | 126 | High user demand, easy implementation
+Mobile Performance | 9 | 8 | 8 | 6 | 96 | Critical for user retention
 
+Sort features from highest to lowest RICE score.
 Use realistic estimates based on the feature description and user feedback.`;
 
 /**
@@ -98,7 +100,7 @@ function parseRICEResponse(response, features) {
       continue;
     }
 
-    // Parse table format: Feature | Reach | Impact | Confidence | Effort | Score | Justification
+    // Parse table format: Feature Name | Reach | Impact | Confidence | Effort | Score | Justification
     const parts = trimmedLine.split("|").map((part) => part.trim());
 
     if (parts.length >= 6) {
@@ -107,7 +109,7 @@ function parseRICEResponse(response, features) {
       const impact = parseInt(parts[2]) || 0;
       const confidence = parseInt(parts[3]) || 0;
       const effort = parseInt(parts[4]) || 1;
-      const score = parseInt(parts[5]) || 0;
+      const score = parseFloat(parts[5]) || 0;
       const justification = parts[6] || "";
 
       // Find the original feature to merge data

@@ -21,13 +21,13 @@ Consider these criteria:
 - Implicit feasibility
 - Effect on user experience
 
-Respond in this format:
-- Must: [feature1, feature2...]
-- Should: [...]
-- Could: [...]
-- Won't: [...]
+IMPORTANT: Respond EXACTLY in this format:
+- Must: Feature Name 1, Feature Name 2, Feature Name 3
+- Should: Feature Name 4, Feature Name 5
+- Could: Feature Name 6, Feature Name 7
+- Won't: Feature Name 8, Feature Name 9
 
-Add a brief written justification for each feature classification.
+Then add a brief justification paragraph.
 
 Use clear, business-oriented language and focus on what would have the most impact on user satisfaction and business goals.`;
 

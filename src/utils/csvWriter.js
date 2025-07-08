@@ -61,15 +61,20 @@ async function writeFeaturesToCSV(results, filePath) {
   });
 
   const records = results.features.map((feature, index) => {
-    const rice = feature.rice || {};
-    const kano = feature.kano || {};
-
     // Find MoSCoW classification
     let moscow = "Not classified";
     if (results.moscow.must?.includes(feature.name)) moscow = "Must";
     else if (results.moscow.should?.includes(feature.name)) moscow = "Should";
     else if (results.moscow.could?.includes(feature.name)) moscow = "Could";
     else if (results.moscow.wont?.includes(feature.name)) moscow = "Won't";
+
+    // Find RICE data
+    const riceFeature = results.rice.find((f) => f.name === feature.name);
+    const rice = riceFeature?.rice || {};
+
+    // Find Kano data
+    const kanoFeature = results.kano.find((f) => f.name === feature.name);
+    const kano = kanoFeature?.kano || {};
 
     return {
       id: index + 1,
