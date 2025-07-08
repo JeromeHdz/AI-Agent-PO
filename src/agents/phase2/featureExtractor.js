@@ -57,16 +57,8 @@ Please extract clear, actionable features from each theme. Focus on what users a
   try {
     const response = await llm.call(messages);
 
-    // Debug: log the response
-    console.log(
-      "🔍 Feature Extractor AI response:",
-      response.content.substring(0, 500) + "..."
-    );
-
     // Parse the structured response into features
     const features = parseFeaturesFromResponse(response.content);
-
-    console.log("📋 Parsed features:", features.length);
 
     return features;
   } catch (error) {
@@ -86,19 +78,52 @@ function parseFeaturesFromResponse(response) {
 
   let currentFeature = null;
 
+  // Helper to push and reset
+  function pushCurrent() {
+    if (currentFeature) {
+      features.push({
+        name: currentFeature.name || "",
+        description: currentFeature.description || "",
+        objective: currentFeature.objective || "",
+        examples: currentFeature.examples || "",
+        impact: currentFeature.impact || "moderate",
+      });
+    }
+    currentFeature = null;
+  }
+
   for (const line of lines) {
     const trimmedLine = line.trim();
-
     if (!trimmedLine) continue;
 
-    // Check for feature name (starts with ** and ends with **)
-    const featureNameMatch = trimmedLine.match(/^\*\*(.+?)\*\*$/);
-    if (featureNameMatch) {
-      if (currentFeature) {
-        features.push(currentFeature);
-      }
+    // 1. Feature name (numbered or not)
+    const numbered = trimmedLine.match(/^\d+\.\s*\*\*(.+?)\*\*/i);
+    const plainNumbered = trimmedLine.match(/^\d+\.\s*(.+)$/i);
+    const star = trimmedLine.match(/^\*\*(.+?)\*\*$/);
+    if (numbered) {
+      pushCurrent();
       currentFeature = {
-        name: featureNameMatch[1].trim(),
+        name: numbered[1].trim(),
+        description: "",
+        objective: "",
+        examples: "",
+        impact: "moderate",
+      };
+      continue;
+    } else if (star) {
+      pushCurrent();
+      currentFeature = {
+        name: star[1].trim(),
+        description: "",
+        objective: "",
+        examples: "",
+        impact: "moderate",
+      };
+      continue;
+    } else if (plainNumbered) {
+      pushCurrent();
+      currentFeature = {
+        name: plainNumbered[1].trim(),
         description: "",
         objective: "",
         examples: "",
@@ -107,73 +132,35 @@ function parseFeaturesFromResponse(response) {
       continue;
     }
 
-    // Check for numbered feature name (e.g., "1. **Improve App Stability**")
-    const numberedFeatureMatch = trimmedLine.match(/^\d+\.\s*\*\*(.+?)\*\*$/);
-    if (numberedFeatureMatch) {
-      if (currentFeature) {
-        features.push(currentFeature);
-      }
-      currentFeature = {
-        name: numberedFeatureMatch[1].trim(),
-        description: "",
-        objective: "",
-        examples: "",
-        impact: "moderate",
-      };
-      continue;
-    }
-
-    // Check for feature name with dash prefix (e.g., "- **Feature name**: Dark Mode")
-    const featureNameWithDashMatch = trimmedLine.match(
-      /^-\s*\*\*(.+?)\*\*:\s*(.+)$/
+    // 2. Section lines (robust to format)
+    // - **User description**: ...
+    // - User description: ...
+    // Description: ...
+    // (idem pour les autres champs)
+    const sectionMatch = trimmedLine.match(
+      /^-?\s*\*?\*?\s*(User description|Description|Product objective \/ business value|Objective|Concrete usage examples|Examples|Estimated impact on user experience|Impact)\*?\*?\s*:?\s*(.*)$/i
     );
-    if (featureNameWithDashMatch) {
-      const sectionName = featureNameWithDashMatch[1].trim();
-      const sectionValue = featureNameWithDashMatch[2].trim();
-
-      // Only process the "Feature name" section
-      if (sectionName.toLowerCase().includes("feature name")) {
-        if (currentFeature) {
-          features.push(currentFeature);
-        }
-        currentFeature = {
-          name: sectionValue,
-          description: "",
-          objective: "",
-          examples: "",
-          impact: "moderate",
-        };
+    if (sectionMatch && currentFeature) {
+      const key = sectionMatch[1].toLowerCase();
+      const value = sectionMatch[2].trim();
+      if (key.includes("user description") || key === "description") {
+        currentFeature.description = value;
+      } else if (key.includes("objective") || key.includes("business value")) {
+        currentFeature.objective = value;
+      } else if (key.includes("example")) {
+        currentFeature.examples = value;
+      } else if (key.includes("impact")) {
+        currentFeature.impact = value.toLowerCase();
       }
       continue;
     }
 
-    // Check for different sections
-    if (trimmedLine.includes("Description:")) {
-      const description = trimmedLine.replace(/^.*Description:\s*/, "").trim();
-      if (currentFeature) currentFeature.description = description;
-    } else if (trimmedLine.includes("Objective:")) {
-      const objective = trimmedLine.replace(/^.*Objective:\s*/, "").trim();
-      if (currentFeature) currentFeature.objective = objective;
-    } else if (trimmedLine.includes("Examples:")) {
-      const examples = trimmedLine.replace(/^.*Examples:\s*/, "").trim();
-      if (currentFeature) currentFeature.examples = examples;
-    } else if (trimmedLine.includes("Impact:")) {
-      const impact = trimmedLine
-        .replace(/^.*Impact:\s*/, "")
-        .trim()
-        .toLowerCase();
-      if (currentFeature) currentFeature.impact = impact;
-    } else if (currentFeature && currentFeature.description === "") {
-      // If no specific section, treat as description
+    // 3. Fallback: if line is not a section and we have a current feature, treat as description if empty
+    if (currentFeature && !currentFeature.description) {
       currentFeature.description = trimmedLine;
     }
   }
-
-  // Add the last feature
-  if (currentFeature) {
-    features.push(currentFeature);
-  }
-
+  pushCurrent();
   return features;
 }
 
