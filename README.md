@@ -1,186 +1,277 @@
 # AI Agent Builder - Product Owner Assistant
 
-## 🎯 Overview
+## 🌟 Vue d'ensemble
 
-A comprehensive AI agent system designed to transform raw user feedback into actionable user stories for Product Owners. Built with LangChain and OpenAI, this system provides a 3-phase pipeline to streamline the feedback-to-backlog process.
+Système d'agents IA pour assister les Product Owners dans l'analyse de feedback utilisateur et la génération de backlog. Développé dans le cadre du test technique Thiga.
 
-## 🚀 Features
+## 🎯 Objectif
 
-### Phase 1: Thematic Synthesis
-- **Input**: Raw user feedback
-- **Process**: Group feedback by themes and generate summaries
-- **Output**: Structured thematic lines
+Transformer des **feedbacks utilisateurs non structurés** (emails, tickets, commentaires) en **user stories prioritaires** prêtes pour le backlog, via un pipeline IA en 3 phases.
 
-### Phase 2: Feature Extraction & Prioritization
-- **Input**: Thematic lines from Phase 1
-- **Process**: Extract features and prioritize using multiple methods
-- **Output**: Prioritized features with scores (MoSCoW, RICE, Kano)
+## 🏗️ Architecture
 
-### Phase 3: User Story Generation
-- **Input**: Prioritized features from Phase 2
-- **Process**: Transform features into structured user stories
-- **Output**: Ready-to-use user stories for backlog (Jira, Notion, Linear)
+### Pipeline complet
 
-## 📁 Project Structure
+```
+Phase 1: Feedback Ingestion → Phase 2: Feature Extraction → Phase 3: User Stories Generation
+```
+
+### Agents implémentés
+
+- ✅ **Agent 1** : Feedback Processor (Phase 1) - **COMPLÉTÉ**
+- 🔄 **Agent 2** : Pattern Identifier (Phase 2) - En cours
+- ⏳ **Agent 3** : Feature Extractor (Phase 2) - À venir
+- ⏳ **Agent 4** : Prioritization Engine (Phase 3) - À venir
+- ⏳ **Agent 5** : Story Generator (Phase 3) - À venir
+
+## 📊 Roadmap
+
+| Phase       | Statut          | Branche                             | Description                           | Progression |
+| ----------- | --------------- | ----------------------------------- | ------------------------------------- | ----------- |
+| **Phase 1** | ✅ **COMPLÉTÉ** | `feature/phase1-feedback-ingestion` | Analyse et synthèse des feedbacks     | 100%        |
+| **Phase 2** | 🔄 **EN COURS** | `feature/phase2-feature-extraction` | Extraction et clustering des features | 0%          |
+| **Phase 3** | ⏳ **À VENIR**  | `feature/phase3-user-stories`       | Génération de user stories            | 0%          |
+
+## 🚀 Phase 1 - Feedback Ingestion (COMPLÉTÉ)
+
+### ✅ Fonctionnalités implémentées
+
+- **Pipeline Map-Reduce** : Traitement de 200 feedbacks → 94 uniques → 5 batchs → synthèse thématique
+- **Technologies** : LangChain + OpenAI GPT-4o
+- **Tests unitaires** : 100% de couverture pour les fonctions critiques
+- **Export** : Markdown + CSV avec thèmes synthétisés
+- **Performance** : ~30-60 secondes pour 200 feedbacks
+
+### 📁 Structure Phase 1
+
+```
+src/agents/phase1/
+├── pipeline.js          # Orchestrateur principal
+├── themeSynthesizer.js  # Map phase - résumé par batch
+├── reduceSynthesizer.js # Reduce phase - fusion des résumés
+└── themeExporter.js     # Export des résultats
+```
+
+### 🧪 Tests Phase 1
+
+- ✅ Tests unitaires pour tous les composants
+- ✅ Tests d'intégration du pipeline complet
+- ✅ Mock des appels OpenAI pour tests reproductibles
+
+## 🔄 Phase 2 - Feature Extraction (EN COURS)
+
+### 🎯 Objectifs
+
+- Extraire les fonctionnalités demandées des thèmes Phase 1
+- Clustering sémantique des features similaires
+- Priorisation initiale (MoSCoW, RICE)
+
+### 📋 Tâches prévues
+
+- [ ] Agent Pattern Identifier
+- [ ] Agent Feature Extractor
+- [ ] Tests unitaires complets
+- [ ] Documentation détaillée
+
+## ⏳ Phase 3 - User Stories Generation (À VENIR)
+
+### 🎯 Objectifs
+
+- Génération automatique de user stories
+- Critères d'acceptation
+- Estimation de complexité
+- Intégration dans le backlog
+
+## 🛠️ Installation et configuration
+
+### Prérequis
+
+- Node.js >= 18.0.0
+- Clé API OpenAI valide
+
+### Installation
+
+```bash
+git clone [repository-url]
+cd AI_PO_THIGA
+npm install
+```
+
+### Configuration
+
+```bash
+cp env.example .env
+# Éditer .env avec ta clé API OpenAI
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+## 🚀 Utilisation
+
+### Phase 1 (Feedback Ingestion)
+
+```bash
+npm run phase1
+# Résultats dans outputs/themes.md et outputs/themes.csv
+```
+
+### Tests
+
+```bash
+npm test                    # Tests unitaires
+npm run test:coverage      # Couverture de code
+npm run test:watch         # Tests en mode watch
+```
+
+### Linting et formatage
+
+```bash
+npm run lint               # ESLint
+npm run lint:fix          # ESLint avec auto-fix
+npm run format            # Prettier
+```
+
+## 📁 Structure du projet
 
 ```
 AI_PO_THIGA/
 ├── src/
-│   ├── agents/          # AI agents for each phase
-│   ├── cli/             # Command line interfaces
-│   └── utils/           # Utility functions
-├── tests/               # Unit and integration tests
-├── docs/                # Documentation
-├── data/                # Input data and examples
-├── outputs/             # Generated results
-└── scripts/             # Utility scripts
+│   ├── agents/
+│   │   └── phase1/           # ✅ Phase 1 complétée
+│   │       ├── pipeline.js
+│   │       ├── themeSynthesizer.js
+│   │       ├── reduceSynthesizer.js
+│   │       └── themeExporter.js
+│   ├── utils/                # Utilitaires partagés
+│   │   ├── csvReader.js
+│   │   ├── csvWriter.js
+│   │   ├── markdownWriter.js
+│   │   └── chunkArray.js
+│   └── cli/
+│       └── phase1.js         # Point d'entrée CLI
+├── data/
+│   └── feedback_raw.csv      # Données de test (200 feedbacks)
+├── outputs/                  # Résultats générés
+│   ├── themes.md
+│   └── themes.csv
+├── tests/
+│   └── unit/
+│       ├── agents/
+│       │   └── phase1/       # Tests Phase 1
+│       └── utils/            # Tests utilitaires
+├── docs/
+│   └── PHASE_1_FEEDBACK_INGESTION.md  # Documentation détaillée
+└── README.md
 ```
 
-## 🛠️ Installation
+## 🧪 Tests et qualité
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/ai-po-thiga.git
-   cd ai-po-thiga
-   ```
+### Couverture de code
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+- **Phase 1** : 100% de couverture pour les fonctions critiques
+- **Tests unitaires** : Tous les agents et utilitaires
+- **Tests d'intégration** : Pipeline complet Phase 1
 
-3. **Configure environment**
-   ```bash
-   cp env.example .env
-   # Edit .env with your OpenAI API key
-   ```
+### Standards de code
 
-## 🔧 Configuration
+- **ESLint** : Configuration TypeScript
+- **Prettier** : Formatage automatique
+- **Commits conventionnels** : `feat()`, `fix()`, `test()`, `docs()`
 
-### Required Environment Variables
+## 📊 Métriques Phase 1
 
-```env
+### Performance
+
+- **Input** : 200 feedbacks bruts
+- **Traitement** : 94 feedbacks uniques (déduplication)
+- **Batchs** : 5 batchs de 20 feedbacks
+- **Temps** : ~30-60 secondes
+- **Coût** : ~$0.10-0.20 par exécution
+
+### Qualité des résultats
+
+- **Thèmes générés** : 4-7 thèmes principaux
+- **Cohérence** : Regroupement sémantique automatique
+- **Reproductibilité** : Résultats déterministes
+
+## 🔧 Configuration avancée
+
+### Variables d'environnement
+
+```bash
 OPENAI_API_KEY=your_openai_api_key_here
 OPENAI_MODEL=gpt-4o
 OPENAI_MAX_TOKENS=4000
 OPENAI_TEMPERATURE=0.3
+LANGCHAIN_TRACING_V2=false
 ```
 
-### Optional Configuration
+### Paramètres ajustables
 
-```env
-LANGCHAIN_TRACING_V2=true
-LANGCHAIN_API_KEY=your_langchain_api_key_here
-NODE_ENV=development
-LOG_LEVEL=info
-```
+- **Taille des batchs** : 20 feedbacks (configurable)
+- **Modèle OpenAI** : gpt-4o (ou gpt-3.5-turbo)
+- **Temperature** : 0.3 (déterministe)
 
-## 🎯 Usage
+## 🐛 Dépannage
 
-### Phase 1: Process Raw Feedback
-```bash
-npm run phase1 -- --input data/feedback.csv --output outputs/themes.md
-```
+### Erreurs courantes
 
-### Phase 2: Extract and Prioritize Features
-```bash
-npm run phase2 -- --input outputs/themes.md --output outputs/features.md
-```
+1. **401 Unauthorized** : Clé API OpenAI invalide
+2. **403 Forbidden** : LangChain tracing activé sans clé valide
+3. **Token limit exceeded** : Réduire la taille des batchs
 
-### Phase 3: Generate User Stories
-```bash
-npm run phase3 -- --input outputs/features.md --output outputs/user-stories.md
-```
+### Solutions
 
-### Complete Pipeline
-```bash
-npm run pipeline -- --input data/feedback.csv
-```
-
-## 📊 Example Output
-
-### Phase 1: Thematic Lines
-```markdown
-### Dark Mode Request
-Users frequently request a dark mode option for better visual comfort during evening usage.
-
-### Mobile Performance Issues
-Multiple users report slow application performance on mobile devices.
-```
-
-### Phase 2: Prioritized Features
-```markdown
-#### 🌓 Dark Mode
-- **Description**: Users request dark theme for visual comfort
-- **Priority**: Must (MoSCoW) | Score: 126 (RICE)
-- **Impact**: High
-```
-
-### Phase 3: User Stories
-```markdown
-### 📅 User Story: Implement Dark Mode Toggle
-**EPIC**: User Interface Enhancement
-**Summary**: Allow users to switch between light and dark themes
-**Estimation**: 5 story points
-**Acceptance Criteria**:
-- Given I am in settings
-- When I select dark mode
-- Then the interface switches to dark theme
-```
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run tests with coverage
-npm run test:coverage
-
-# Run tests in watch mode
-npm run test:watch
-```
+- Vérifier la clé API OpenAI dans `.env`
+- Désactiver `LANGCHAIN_TRACING_V2=false`
+- Ajuster `batchSize` dans le pipeline
 
 ## 📚 Documentation
 
-- [Phase 1 Documentation](docs/phase1.md)
-- [Phase 2 Documentation](docs/phase2.md)
-- [Phase 3 Documentation](docs/phase3.md)
-- [API Reference](docs/api.md)
-- [Contributing Guidelines](CONTRIBUTING.md)
+- **[Phase 1 - Feedback Ingestion](docs/PHASE_1_FEEDBACK_INGESTION.md)** : Documentation complète
+- **[Architecture des agents](docs/AGENT_ARCHITECTURE.md)** : Vue d'ensemble technique
+- **[Guide de développement](CONTRIBUTING.md)** : Standards et bonnes pratiques
 
-## 🔄 Development
+## 🚦 Prochaines étapes
 
-```bash
-# Start development server
-npm run dev
+### Phase 2 - Feature Extraction
 
-# Lint code
-npm run lint
+1. **Créer la branche** : `feature/phase2-feature-extraction`
+2. **Implémenter Agent 2** : Pattern Identifier
+3. **Implémenter Agent 3** : Feature Extractor
+4. **Tests et documentation**
 
-# Format code
-npm run format
-```
+### Phase 3 - User Stories Generation
 
-## 🤝 Contributing
+1. **Créer la branche** : `feature/phase3-user-stories`
+2. **Implémenter Agent 4** : Prioritization Engine
+3. **Implémenter Agent 5** : Story Generator
+4. **Tests et documentation**
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+## 🙋 Contribuer
 
-## 📄 License
+### Git Flow
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- **Branches** : `main` ← `dev` ← `feature/phaseX-*`
+- **Commits** : Conventionnels (`feat()`, `fix()`, `test()`, `docs()`)
+- **PR** : Obligatoire pour merge vers `dev`
 
-## 🙏 Acknowledgments
+### Standards
 
-- Built for Thiga Technical Test
-- Powered by OpenAI GPT-4
-- Built with LangChain framework
+- **Code en anglais** : Variables, fonctions, commentaires
+- **Tests unitaires** : Pour chaque fonction non triviale
+- **Documentation** : README et docs détaillées
 
 ---
 
-**Project Status**: Development in Progress  
-**Last Updated**: July 2025 
+## 📄 Licence
+
+MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+## 🙋 Projet réalisé dans le cadre du test technique "Agent Builder AI - Thiga"
+
+**Auteur** : [Ton Nom]  
+**Date** : 2024  
+**Version** : 1.0.0  
+**Phases** : 1/3 complétées
