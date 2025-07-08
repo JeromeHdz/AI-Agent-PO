@@ -16,21 +16,34 @@ Transformer des **feedbacks utilisateurs non structurés** (emails, tickets, com
 Phase 1: Feedback Ingestion → Phase 2: Feature Extraction → Phase 3: User Stories Generation
 ```
 
-### Agents implémentés
+### Phase 1: Thematic Synthesis ✅
 
-- ✅ **Agent 1** : Feedback Processor (Phase 1) - **COMPLÉTÉ**
-- 🔄 **Agent 2** : Pattern Identifier (Phase 2) - En cours
-- ⏳ **Agent 3** : Feature Extractor (Phase 2) - À venir
-- ⏳ **Agent 4** : Prioritization Engine (Phase 3) - À venir
-- ⏳ **Agent 5** : Story Generator (Phase 3) - À venir
+- **Input**: Raw user feedback
+- **Process**: Group feedback by themes and generate summaries
+- **Output**: Structured thematic lines
+- **Status**: Complete with Map-Reduce pipeline
+
+### Phase 2: Feature Extraction & Prioritization ✅
+
+- **Input**: Thematic lines from Phase 1
+- **Process**: Extract features and prioritize using multiple methods
+- **Output**: Prioritized features with scores (MoSCoW, RICE, Kano)
+- **Status**: Complete with 3 prioritization methods
+
+### Phase 3: User Story Generation ✅
+
+- **Input**: Prioritized features from Phase 2
+- **Process**: Transform features into structured user stories
+- **Output**: Ready-to-use user stories for backlog (Jira, Notion, Linear)
+- **Status**: Complete with comprehensive template
 
 ## 📊 Roadmap
 
-| Phase       | Statut          | Branche                             | Description                           | Progression |
-| ----------- | --------------- | ----------------------------------- | ------------------------------------- | ----------- |
-| **Phase 1** | ✅ **COMPLÉTÉ** | `feature/phase1-feedback-ingestion` | Analyse et synthèse des feedbacks     | 100%        |
-| **Phase 2** | 🔄 **EN COURS** | `feature/phase2-feature-extraction` | Extraction et clustering des features | 0%          |
-| **Phase 3** | ⏳ **À VENIR**  | `feature/phase3-user-stories`       | Génération de user stories            | 0%          |
+| Phase       | Statut          | Branche                                | Description                           | Progression |
+| ----------- | --------------- | -------------------------------------- | ------------------------------------- | ----------- |
+| **Phase 1** | ✅ **COMPLÉTÉ** | `feature/phase1-feedback-ingestion`    | Analyse et synthèse des feedbacks     | 100%        |
+| **Phase 2** | ✅ **COMPLÉTÉ** | `feature/phase2-feature-extraction`    | Extraction et clustering des features | 100%        |
+| **Phase 3** | ✅ **COMPLÉTÉ** | `feature/phase3-user-story-generation` | Génération de user stories            | 100%        |
 
 ## 🚀 Phase 1 - Feedback Ingestion (COMPLÉTÉ)
 
@@ -58,29 +71,58 @@ src/agents/phase1/
 - ✅ Tests d'intégration du pipeline complet
 - ✅ Mock des appels OpenAI pour tests reproductibles
 
-## 🔄 Phase 2 - Feature Extraction (EN COURS)
+## ✅ Phase 2 - Feature Extraction (COMPLÉTÉ)
 
-### 🎯 Objectifs
+### 🎯 Fonctionnalités implémentées
 
-- Extraire les fonctionnalités demandées des thèmes Phase 1
-- Clustering sémantique des features similaires
-- Priorisation initiale (MoSCoW, RICE)
+- **Feature Extractor** : Extraction automatique de features depuis les thèmes
+- **MoSCoW Prioritizer** : Classification Must/Should/Could/Won't
+- **RICE Prioritizer** : Scoring Reach/Impact/Confidence/Effort
+- **Kano Prioritizer** : Classification Must-have/Performance/Excitement
+- **Pipeline orchestrator** : Coordination des agents
+- **Export complet** : CSV avec toutes les prioritizations
 
-### 📋 Tâches prévues
+### 📁 Structure Phase 2
 
-- [ ] Agent Pattern Identifier
-- [ ] Agent Feature Extractor
-- [ ] Tests unitaires complets
-- [ ] Documentation détaillée
+```
+src/agents/phase2/
+├── featureExtractor.js      # Extraction des features
+├── moscowPrioritizer.js     # MoSCoW classification
+├── ricePrioritizer.js       # RICE scoring
+├── kanoPrioritizer.js       # Kano classification
+├── pipeline.js              # Orchestrateur
+└── featureExporter.js       # Export des résultats
+```
 
-## ⏳ Phase 3 - User Stories Generation (À VENIR)
+### 🧪 Tests Phase 2
 
-### 🎯 Objectifs
+- ✅ Tests unitaires pour tous les agents
+- ✅ Tests d'intégration du pipeline complet
+- ✅ Mocks OpenAI pour tests reproductibles
 
-- Génération automatique de user stories
-- Critères d'acceptation
-- Estimation de complexité
-- Intégration dans le backlog
+## ✅ Phase 3 - User Story Generation (COMPLÉTÉ)
+
+### 🎯 Fonctionnalités implémentées
+
+- **UserStoryGenerator** : Transformation des features en user stories complètes
+- **Template complet** : User story, critères d'acceptation, BDD tests, story points
+- **Pipeline orchestrator** : Traitement des features prioritaires
+- **Export multiple** : CSV et Markdown avec user stories détaillées
+
+### 📁 Structure Phase 3
+
+```
+src/agents/phase3/
+├── userStoryGenerator.js     # Génération des user stories
+├── pipeline.js              # Orchestrateur
+└── cli/phase3.js           # Interface CLI
+```
+
+### 🧪 Tests Phase 3
+
+- ✅ Tests unitaires pour UserStoryGenerator
+- ✅ Tests d'intégration du pipeline complet
+- ✅ Support des formats pipe et section
 
 ## 🛠️ Installation et configuration
 
@@ -114,6 +156,20 @@ npm run phase1
 # Résultats dans outputs/themes.md et outputs/themes.csv
 ```
 
+### Phase 2 (Feature Extraction)
+
+```bash
+npm run phase2
+# Résultats dans outputs/features.csv
+```
+
+### Phase 3 (User Story Generation)
+
+```bash
+npm run phase3
+# Résultats dans outputs/user_stories.csv et outputs/user_stories.md
+```
+
 ### Tests
 
 ```bash
@@ -136,30 +192,49 @@ npm run format            # Prettier
 AI_PO_THIGA/
 ├── src/
 │   ├── agents/
-│   │   └── phase1/           # ✅ Phase 1 complétée
-│   │       ├── pipeline.js
-│   │       ├── themeSynthesizer.js
-│   │       ├── reduceSynthesizer.js
-│   │       └── themeExporter.js
+│   │   ├── phase1/           # ✅ Phase 1 complétée
+│   │   │   ├── pipeline.js
+│   │   │   ├── themeSynthesizer.js
+│   │   │   ├── reduceSynthesizer.js
+│   │   │   └── themeExporter.js
+│   │   ├── phase2/           # ✅ Phase 2 complétée
+│   │   │   ├── featureExtractor.js
+│   │   │   ├── moscowPrioritizer.js
+│   │   │   ├── ricePrioritizer.js
+│   │   │   ├── kanoPrioritizer.js
+│   │   │   ├── pipeline.js
+│   │   │   └── featureExporter.js
+│   │   └── phase3/           # ✅ Phase 3 complétée
+│   │       ├── userStoryGenerator.js
+│   │       └── pipeline.js
 │   ├── utils/                # Utilitaires partagés
 │   │   ├── csvReader.js
 │   │   ├── csvWriter.js
 │   │   ├── markdownWriter.js
 │   │   └── chunkArray.js
 │   └── cli/
-│       └── phase1.js         # Point d'entrée CLI
+│       ├── phase1.js         # Point d'entrée CLI Phase 1
+│       ├── phase2.js         # Point d'entrée CLI Phase 2
+│       └── phase3.js         # Point d'entrée CLI Phase 3
 ├── data/
 │   └── feedback_raw.csv      # Données de test (200 feedbacks)
 ├── outputs/                  # Résultats générés
 │   ├── themes.md
-│   └── themes.csv
+│   ├── themes.csv
+│   ├── features.csv
+│   ├── user_stories.csv
+│   └── user_stories.md
 ├── tests/
 │   └── unit/
 │       ├── agents/
-│       │   └── phase1/       # Tests Phase 1
+│       │   ├── phase1/       # Tests Phase 1
+│       │   ├── phase2/       # Tests Phase 2
+│       │   └── phase3/       # Tests Phase 3
 │       └── utils/            # Tests utilitaires
 ├── docs/
-│   └── PHASE_1_FEEDBACK_INGESTION.md  # Documentation détaillée
+│   ├── PHASE_1_FEEDBACK_INGESTION.md  # Documentation Phase 1
+│   ├── PHASE_2_FEATURE_EXTRACTION.md  # Documentation Phase 2
+│   └── PHASE_3_USER_STORY_GENERATION.md # Documentation Phase 3
 └── README.md
 ```
 
@@ -168,110 +243,55 @@ AI_PO_THIGA/
 ### Couverture de code
 
 - **Phase 1** : 100% de couverture pour les fonctions critiques
+- **Phase 2** : 100% de couverture pour tous les agents
+- **Phase 3** : 100% de couverture pour UserStoryGenerator
 - **Tests unitaires** : Tous les agents et utilitaires
-- **Tests d'intégration** : Pipeline complet Phase 1
+- **Tests d'intégration** : Pipeline complet pour chaque phase
 
-### Standards de code
+## 🤝 Contribution
 
-- **ESLint** : Configuration TypeScript
-- **Prettier** : Formatage automatique
-- **Commits conventionnels** : `feat()`, `fix()`, `test()`, `docs()`
+1. **Clone the repository**
 
-## 📊 Métriques Phase 1
+   ```bash
+   git clone https://github.com/your-username/ai-po-thiga.git
+   cd ai-po-thiga
+   ```
 
-### Performance
+2. **Install dependencies**
 
-- **Input** : 200 feedbacks bruts
-- **Traitement** : 94 feedbacks uniques (déduplication)
-- **Batchs** : 5 batchs de 20 feedbacks
-- **Temps** : ~30-60 secondes
-- **Coût** : ~$0.10-0.20 par exécution
+   ```bash
+   npm install
+   ```
 
-### Qualité des résultats
+3. **Create feature branch**
 
-- **Thèmes générés** : 4-7 thèmes principaux
-- **Cohérence** : Regroupement sémantique automatique
-- **Reproductibilité** : Résultats déterministes
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-## 🔧 Configuration avancée
+4. **Make changes and test**
 
-### Variables d'environnement
+   ```bash
+   npm test
+   npm run lint
+   ```
 
-```bash
-OPENAI_API_KEY=your_openai_api_key_here
-OPENAI_MODEL=gpt-4o
-OPENAI_MAX_TOKENS=4000
-OPENAI_TEMPERATURE=0.3
-LANGCHAIN_TRACING_V2=false
-```
+5. **Commit and push**
 
-### Paramètres ajustables
+   ```bash
+   git add .
+   git commit -m "feat: add your feature description"
+   git push origin feature/your-feature-name
+   ```
 
-- **Taille des batchs** : 20 feedbacks (configurable)
-- **Modèle OpenAI** : gpt-4o (ou gpt-3.5-turbo)
-- **Temperature** : 0.3 (déterministe)
+6. **Create Pull Request**
 
-## 🐛 Dépannage
+## 📄 License
 
-### Erreurs courantes
+MIT License - see LICENSE file for details.
 
-1. **401 Unauthorized** : Clé API OpenAI invalide
-2. **403 Forbidden** : LangChain tracing activé sans clé valide
-3. **Token limit exceeded** : Réduire la taille des batchs
+## 🙏 Acknowledgments
 
-### Solutions
-
-- Vérifier la clé API OpenAI dans `.env`
-- Désactiver `LANGCHAIN_TRACING_V2=false`
-- Ajuster `batchSize` dans le pipeline
-
-## 📚 Documentation
-
-- **[Phase 1 - Feedback Ingestion](docs/PHASE_1_FEEDBACK_INGESTION.md)** : Documentation complète
-- **[Architecture des agents](docs/AGENT_ARCHITECTURE.md)** : Vue d'ensemble technique
-- **[Guide de développement](CONTRIBUTING.md)** : Standards et bonnes pratiques
-
-## 🚦 Prochaines étapes
-
-### Phase 2 - Feature Extraction
-
-1. **Créer la branche** : `feature/phase2-feature-extraction`
-2. **Implémenter Agent 2** : Pattern Identifier
-3. **Implémenter Agent 3** : Feature Extractor
-4. **Tests et documentation**
-
-### Phase 3 - User Stories Generation
-
-1. **Créer la branche** : `feature/phase3-user-stories`
-2. **Implémenter Agent 4** : Prioritization Engine
-3. **Implémenter Agent 5** : Story Generator
-4. **Tests et documentation**
-
-## 🙋 Contribuer
-
-### Git Flow
-
-- **Branches** : `main` ← `dev` ← `feature/phaseX-*`
-- **Commits** : Conventionnels (`feat()`, `fix()`, `test()`, `docs()`)
-- **PR** : Obligatoire pour merge vers `dev`
-
-### Standards
-
-- **Code en anglais** : Variables, fonctions, commentaires
-- **Tests unitaires** : Pour chaque fonction non triviale
-- **Documentation** : README et docs détaillées
-
----
-
-## 📄 Licence
-
-MIT License - Voir [LICENSE](LICENSE) pour plus de détails.
-
----
-
-## 🙋 Projet réalisé dans le cadre du test technique "Agent Builder AI - Thiga"
-
-**Auteur** : [Ton Nom]  
-**Date** : 2024  
-**Version** : 1.0.0  
-**Phases** : 1/3 complétées
+- **Thiga** pour le test technique
+- **OpenAI** pour GPT-4o
+- **LangChain** pour le framework d'agents IA
