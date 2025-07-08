@@ -77,11 +77,13 @@ async function generateUserStories(features) {
 
   const featuresList = features
     .map((feature, i) => {
+      const featureName = feature["Feature Name"] || feature.name;
+      const description = feature["Description"] || feature.description;
       const priority = feature["MoSCoW"] || feature.moscow || "Should";
       const riceScore = feature["RICE Score"] || feature.rice?.score || "";
       const kanoType = feature["Kano Type"] || feature.kano?.type || "";
 
-      return `${i + 1}. **${feature["Feature Name"]}** - ${feature["Description"]} (Priority: ${priority}, RICE: ${riceScore}, Kano: ${kanoType})`;
+      return `${i + 1}. **${featureName}** - ${description} (Priority: ${priority}, RICE: ${riceScore}, Kano: ${kanoType})`;
     })
     .join("\n");
 
@@ -124,8 +126,17 @@ Please create detailed user stories following the complete template structure. F
 function parseUserStories(response, features) {
   const stories = [];
 
-  // Split response into sections by feature (separated by ---)
-  const sections = response.split(/\n---\n/);
+  // Split response into sections by feature (separated by --- or newlines)
+  let sections = response.split(/\n---\n/);
+
+  // If we have only one section but it contains multiple lines with pipes,
+  // split by newlines to get individual features
+  if (sections.length === 1 && sections[0].includes("\n")) {
+    sections = sections[0]
+      .split("\n")
+      .filter((line) => line.trim() && line.includes("|"));
+  }
+
   console.log(`🔍 Found ${sections.length} sections in response`);
 
   for (const section of sections) {
@@ -133,88 +144,56 @@ function parseUserStories(response, features) {
 
     console.log(`🔍 Processing section: ${section.substring(0, 100)}...`);
 
-    // Extract feature name from the section
-    let featureNameMatch = section.match(
-      /\*\*Feature Name\*\*:\s*(.+?)(?:\n|$)/
-    );
-    if (!featureNameMatch) {
-      // Try alternative regex with more flexible spacing
-      featureNameMatch = section.match(/Feature Name.*?:\s*(.+?)(?:\n|$)/);
-    }
-    if (!featureNameMatch) {
-      console.log(`❌ No Feature Name found in section`);
+    // Parse pipe-separated format: Feature | Story | Points | Description | Acceptance | BDD | Dependencies | Value | Priority | Epic
+    const parts = section.split("|").map((part) => part.trim());
+
+    if (parts.length < 3) {
+      console.log(`❌ Invalid format in section, expected at least 3 parts`);
       continue;
     }
 
-    const featureName = featureNameMatch[1].trim();
+    const featureName = parts[0];
+    const userStory = parts[1] || "";
+    const storyPoints = parseInt(parts[2]) || 8;
+    const description = parts[3] || "";
+    const acceptanceCriteria = parts[4] || "";
+    const bddTests = parts[5] || "";
+    const dependencies = parts[6] || "";
+    const value = parseFloat(parts[7]) || 0;
+    const priority = parts[8] || "Should";
+    const epic = parts[9] || "General";
+
     console.log(`🔍 Processing feature: ${featureName}`);
-
-    // Clean up feature name (remove extra **)
-    const cleanFeatureName = featureName
-      .replace(/^\*\*\s*/, "")
-      .replace(/\s*\*\*$/, "");
-
-    // Find the original feature
-    const originalFeature = features.find(
-      (f) =>
-        f["Feature Name"]
-          .toLowerCase()
-          .includes(cleanFeatureName.toLowerCase()) ||
-        cleanFeatureName.toLowerCase().includes(f["Feature Name"].toLowerCase())
+    console.log(
+      `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
     );
 
+    // Find the original feature - handle both "Feature Name" and "name" properties
+    const originalFeature = features.find((f) => {
+      const featureNameFromData = f["Feature Name"] || f.name;
+      if (!featureNameFromData) return false;
+
+      const match =
+        featureNameFromData.toLowerCase().includes(featureName.toLowerCase()) ||
+        featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
+
+      if (match) {
+        console.log(
+          `🔍 Matched "${featureName}" with "${featureNameFromData}"`
+        );
+      }
+
+      return match;
+    });
+
     if (!originalFeature) {
-      console.log(
-        `❌ Could not find original feature for: ${cleanFeatureName}`
-      );
+      console.log(`❌ Could not find original feature for: ${featureName}`);
       continue;
     }
 
     console.log(
-      `✅ Found original feature: ${originalFeature["Feature Name"]}`
+      `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
     );
-
-    // Extract user story - more flexible regex
-    const userStoryMatch = section.match(/User Story.*?:\s*(.+?)(?:\n|$)/);
-    const userStory = userStoryMatch ? userStoryMatch[1].trim() : "";
-
-    // Extract story points - more flexible regex
-    const storyPointsMatch = section.match(/Story Points.*?:\s*(\d+)/);
-    const storyPoints = storyPointsMatch ? parseInt(storyPointsMatch[1]) : 8;
-
-    // Extract description - more flexible regex
-    const descriptionMatch = section.match(
-      /Description.*?:\s*(.+?)(?=\*\*|$)/s
-    );
-    const description = descriptionMatch ? descriptionMatch[1].trim() : "";
-
-    // Extract acceptance criteria - more flexible regex
-    const acceptanceMatch = section.match(
-      /Acceptance Criteria.*?:\s*(.+?)(?=\*\*|$)/s
-    );
-    const acceptanceCriteria = acceptanceMatch ? acceptanceMatch[1].trim() : "";
-
-    // Extract BDD tests - more flexible regex
-    const bddMatch = section.match(/BDD Tests.*?:\s*(.+?)(?=\*\*|$)/s);
-    const bddTests = bddMatch ? bddMatch[1].trim() : "";
-
-    // Extract dependencies - more flexible regex
-    const dependenciesMatch = section.match(/Dependencies.*?:\s*(.+?)(?:\n|$)/);
-    const dependencies = dependenciesMatch ? dependenciesMatch[1].trim() : "";
-
-    // Extract value - more flexible regex
-    const valueMatch = section.match(/Value.*?:\s*(\d+(?:\.\d+)?)/);
-    const value = valueMatch ? parseFloat(valueMatch[1]) : 0;
-
-    // Extract priority - more flexible regex
-    const priorityMatch = section.match(/Priority.*?:\s*(.+?)(?:\n|$)/);
-    const priority = priorityMatch
-      ? priorityMatch[1].trim()
-      : originalFeature["MoSCoW"] || "Should";
-
-    // Extract epic - more flexible regex
-    const epicMatch = section.match(/Epic.*?:\s*(.+?)(?:\n|$)/);
-    const epic = epicMatch ? epicMatch[1].trim() : "General";
 
     // Debug: Log what we found
     console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
@@ -228,7 +207,7 @@ function parseUserStories(response, features) {
     stories.push({
       ...originalFeature,
       userStory: {
-        title: cleanFeatureName,
+        title: featureName,
         story: userStory,
         storyPoints,
         description,
