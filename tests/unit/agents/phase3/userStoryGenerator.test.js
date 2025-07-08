@@ -14,6 +14,17 @@ jest.mock("@langchain/openai", () => {
 
         // If we have a single feature
         if (featureLines.length === 1) {
+          if (messageContent.includes("Mobile Performance")) {
+            return {
+              content: `Mobile Performance | As a mobile user, I want the app to load quickly and respond smoothly, So that I can use it efficiently on my device. | 8 | Performance optimization to improve mobile user experience. | The app responds quickly to user interactions. | Given I am using the mobile app, And I navigate between screens, When I change pages, Then the app responds within 2 seconds, And animations are smooth without lag. | Depends on backend optimization | 9.2 | Must | Performance Optimization`,
+            };
+          }
+          if (messageContent.includes("Interface Simplification")) {
+            return {
+              content: `Interface Simplification | As a new user, I want a simplified interface, So that I can easily understand and use the application without confusion. | 5 | Interface refactoring to improve new user experience. | The interface is intuitive and easy to understand. | Given I am a first-time user, And I open the application, When I see the interface, Then I see a clean and intuitive interface, And I can complete basic tasks without help. | No dependencies | 7.8 | Should | User Experience Enhancement`,
+            };
+          }
+          // Default: Dark Mode
           return {
             content: `Dark Mode | As a user, I want to toggle between light and dark themes, So that I can reduce eye strain in low-light environments. | 3 | User interface allowing to change the application theme to improve visual comfort. | The user can access settings and activate dark mode. | Given I am on the settings page, And dark mode is available, When I click the theme toggle button, Then the interface switches to dark mode, And all UI elements adapt to the dark theme. | No dependencies | 8.5 | Must | User Experience Enhancement`,
           };
