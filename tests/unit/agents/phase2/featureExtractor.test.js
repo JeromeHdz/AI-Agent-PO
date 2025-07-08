@@ -100,21 +100,17 @@ describe("extractFeatures", () => {
     const { ChatOpenAI } = require("@langchain/openai");
     ChatOpenAI.mockImplementation(() => ({
       call: jest.fn().mockResolvedValue({
-        content: `Here are the features I extracted:
+        content: `**Dark Mode**
+Description: Users want dark theme for better visibility
+Objective: Improve user experience
+Examples: Toggle switch in settings
+Impact: high
 
-- **Feature name**: Dark Mode
-- **User description**: Users want dark theme for better visibility
-- **Product objective / business value**: Improve user experience
-- **Concrete usage examples**: Toggle switch in settings
-- **Estimated impact on user experience**: High
-
-- **Feature name**: Mobile Performance
-- **User description**: App needs to be faster on mobile
-- **Product objective / business value**: Improve mobile experience
-- **Concrete usage examples**: Optimize loading times
-- **Estimated impact on user experience**: High
-
-These features address the main user concerns.`,
+**Mobile Performance**
+Description: App needs to be faster on mobile
+Objective: Improve mobile experience
+Examples: Optimize loading times
+Impact: high`,
       }),
     }));
 
@@ -128,9 +124,10 @@ These features address the main user concerns.`,
 
     expect(result).toHaveLength(2);
     expect(result[0].name).toBe("Dark Mode");
-    expect(result[0].description).toBe("");
+    expect(result[0].description).toBe(
+      "Users want dark theme for better visibility"
+    );
     expect(result[1].name).toBe("Mobile Performance");
-    // The description might contain the last line of the response
-    expect(result[1].description).toContain("These features address");
+    expect(result[1].description).toBe("App needs to be faster on mobile");
   });
 });

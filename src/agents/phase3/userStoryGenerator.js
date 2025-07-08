@@ -101,15 +101,9 @@ Please create detailed user stories following the complete template structure. F
   try {
     const response = await llm.call(messages);
 
-    // Debug: Log the AI response
-    console.log("🔍 AI Response Preview:");
-    console.log(response.content.substring(0, 500) + "...");
-    console.log("");
-
     // Parse the user stories
     const userStories = parseUserStories(response.content, features);
 
-    console.log(`📊 Parsed ${userStories.length} user stories`);
     return userStories;
   } catch (error) {
     console.error("❌ Error in user story generation:", error.message);
@@ -137,12 +131,8 @@ function parseUserStories(response, features) {
       .filter((line) => line.trim() && line.includes("|"));
   }
 
-  console.log(`🔍 Found ${sections.length} sections in response`);
-
   for (const section of sections) {
     if (!section.trim()) continue;
-
-    console.log(`🔍 Processing section: ${section.substring(0, 100)}...`);
 
     // Try to parse as pipe-separated format first
     const parts = section.split("|").map((part) => part.trim());
@@ -160,11 +150,6 @@ function parseUserStories(response, features) {
       const priority = parts[8] || "Should";
       const epic = parts[9] || "General";
 
-      console.log(`🔍 Processing feature: ${featureName}`);
-      console.log(
-        `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
-      );
-
       // Find the original feature - handle both "Feature Name" and "name" properties
       const originalFeature = features.find((f) => {
         const featureNameFromData = f["Feature Name"] || f.name;
@@ -176,32 +161,12 @@ function parseUserStories(response, features) {
             .includes(featureName.toLowerCase()) ||
           featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
 
-        if (match) {
-          console.log(
-            `🔍 Matched "${featureName}" with "${featureNameFromData}"`
-          );
-        }
-
         return match;
       });
 
       if (!originalFeature) {
-        console.log(`❌ Could not find original feature for: ${featureName}`);
         continue;
       }
-
-      console.log(
-        `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
-      );
-
-      // Debug: Log what we found
-      console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
-      console.log(`  📊 Story Points: ${storyPoints}`);
-      console.log(`  🎯 Priority: ${priority}`);
-      console.log(`  📄 Description: ${description.substring(0, 30)}...`);
-      console.log(
-        `  ✅ Acceptance Criteria: ${acceptanceCriteria.substring(0, 30)}...`
-      );
 
       stories.push({
         ...originalFeature,
@@ -265,11 +230,6 @@ function parseUserStories(response, features) {
       const priority = priorityMatch ? priorityMatch[1].trim() : "Should";
       const epic = epicMatch ? epicMatch[1].trim() : "General";
 
-      console.log(`🔍 Processing feature: ${featureName}`);
-      console.log(
-        `🔍 Available features: ${features.map((f) => f["Feature Name"] || f.name).join(", ")}`
-      );
-
       // Find the original feature - handle both "Feature Name" and "name" properties
       const originalFeature = features.find((f) => {
         const featureNameFromData = f["Feature Name"] || f.name;
@@ -281,32 +241,12 @@ function parseUserStories(response, features) {
             .includes(featureName.toLowerCase()) ||
           featureName.toLowerCase().includes(featureNameFromData.toLowerCase());
 
-        if (match) {
-          console.log(
-            `🔍 Matched "${featureName}" with "${featureNameFromData}"`
-          );
-        }
-
         return match;
       });
 
       if (!originalFeature) {
-        console.log(`❌ Could not find original feature for: ${featureName}`);
         continue;
       }
-
-      console.log(
-        `✅ Found original feature: ${originalFeature["Feature Name"] || originalFeature.name}`
-      );
-
-      // Debug: Log what we found
-      console.log(`  📝 User Story: ${userStory.substring(0, 50)}...`);
-      console.log(`  📊 Story Points: ${storyPoints}`);
-      console.log(`  🎯 Priority: ${priority}`);
-      console.log(`  📄 Description: ${description.substring(0, 30)}...`);
-      console.log(
-        `  ✅ Acceptance Criteria: ${acceptanceCriteria.substring(0, 30)}...`
-      );
 
       stories.push({
         ...originalFeature,

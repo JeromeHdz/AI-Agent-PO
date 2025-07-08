@@ -27,12 +27,12 @@ describe("exportThemes", () => {
     // Check markdown file
     expect(fs.existsSync(testMarkdownPath)).toBe(true);
     const markdownContent = fs.readFileSync(testMarkdownPath, "utf8");
-    expect(markdownContent).toContain("# Synthèse des retours utilisateurs");
+    expect(markdownContent).toContain("# User Feedback Themes");
 
     // Check CSV file
     expect(fs.existsSync(testCsvPath)).toBe(true);
     const csvContent = fs.readFileSync(testCsvPath, "utf8");
-    expect(csvContent).toContain("theme");
+    expect(csvContent).toContain("Theme");
   });
 
   it("should throw error if themes is not an array", async () => {

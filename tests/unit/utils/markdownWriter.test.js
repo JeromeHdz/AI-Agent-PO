@@ -3,15 +3,20 @@ const {
   writeFeaturesToMarkdown,
   writeMarkdown,
 } = require("../../../src/utils/markdownWriter");
-const fs = require("fs");
 
-// Mock fs module
-jest.mock("fs");
+// Mock fs.promises module
+jest.mock("fs", () => ({
+  promises: {
+    writeFile: jest.fn().mockResolvedValue(),
+  },
+}));
+
+const fs = require("fs");
 
 describe("writeThemesToMarkdown", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    fs.writeFile.mockResolvedValue();
+    fs.promises.writeFile.mockResolvedValue();
   });
 
   it("should write themes to markdown file", async () => {
@@ -23,13 +28,13 @@ describe("writeThemesToMarkdown", () => {
 
     await writeThemesToMarkdown(themes, "test-themes.md");
 
-    expect(fs.writeFile).toHaveBeenCalledWith(
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
       "test-themes.md",
       expect.stringContaining("# User Feedback Themes"),
       "utf8"
     );
 
-    const callArgs = fs.writeFile.mock.calls[0];
+    const callArgs = fs.promises.writeFile.mock.calls[0];
     const content = callArgs[1];
 
     expect(content).toContain("Generated from 3 thematic feedback groups");
@@ -48,7 +53,7 @@ describe("writeThemesToMarkdown", () => {
   it("should handle empty themes array", async () => {
     await writeThemesToMarkdown([], "empty-themes.md");
 
-    expect(fs.writeFile).toHaveBeenCalledWith(
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
       "empty-themes.md",
       expect.stringContaining("Generated from 0 thematic feedback groups"),
       "utf8"
@@ -59,7 +64,7 @@ describe("writeThemesToMarkdown", () => {
 describe("writeFeaturesToMarkdown", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    fs.writeFile.mockResolvedValue();
+    fs.promises.writeFile.mockResolvedValue();
   });
 
   it("should write features with prioritization to markdown", async () => {
@@ -140,13 +145,13 @@ describe("writeFeaturesToMarkdown", () => {
 
     await writeFeaturesToMarkdown(results, "test-features.md");
 
-    expect(fs.writeFile).toHaveBeenCalledWith(
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
       "test-features.md",
       expect.stringContaining("# Extracted Features & Prioritization"),
       "utf8"
     );
 
-    const callArgs = fs.writeFile.mock.calls[0];
+    const callArgs = fs.promises.writeFile.mock.calls[0];
     const content = callArgs[1];
 
     expect(content).toContain(
@@ -174,7 +179,7 @@ describe("writeFeaturesToMarkdown", () => {
 describe("writeMarkdown", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    fs.writeFile.mockResolvedValue();
+    fs.promises.writeFile.mockResolvedValue();
   });
 
   it("should write generic data to markdown", async () => {
@@ -185,13 +190,13 @@ describe("writeMarkdown", () => {
 
     await writeMarkdown(data, "test-generic.md", "Test Data");
 
-    expect(fs.writeFile).toHaveBeenCalledWith(
+    expect(fs.promises.writeFile).toHaveBeenCalledWith(
       "test-generic.md",
       expect.stringContaining("# Test Data"),
       "utf8"
     );
 
-    const callArgs = fs.writeFile.mock.calls[0];
+    const callArgs = fs.promises.writeFile.mock.calls[0];
     const content = callArgs[1];
 
     expect(content).toContain("Generated from 2 items");
