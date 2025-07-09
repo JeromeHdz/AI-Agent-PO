@@ -49,7 +49,7 @@ Phase 1: Feedback Ingestion → Phase 2: Feature Extraction → Phase 3: User St
 
 ### ✅ Fonctionnalités implémentées
 
-- **Pipeline Map-Reduce** : Traitement de 200 feedbacks → 94 uniques → 5 batchs → synthèse thématique
+- **Pipeline Map-Reduce** : Traitement de 200 feedbacks → 10 batchs → 16 themes/clusters
 - **Technologies** : LangChain + OpenAI GPT-4o
 - **Tests unitaires** : 100% de couverture pour les fonctions critiques
 - **Export** : Markdown + CSV avec thèmes synthétisés
